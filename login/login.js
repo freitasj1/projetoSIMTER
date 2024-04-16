@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
         { username: "admin", password: "admin" },
         { username: "Pinguim", password: "PoloNorte" },
         { username: "FrangoFrito", password: "Senha" },
-        { username: "ProjetoHERO", password: "projete" },
         { username: "BobEsponja", password: "LulaMolusco" },
 
 
