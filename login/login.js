@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (user) {
             errorMessage.textContent = "Login bem-sucedido!";
-            location.href = 'section-one.html';
+            window.location.href = 'https://youtube.com'; 
         } else {
             errorMessage.textContent = "Credenciais inválidas";
         }
