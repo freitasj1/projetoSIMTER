@@ -1,11 +1,6 @@
-bootstrap5\node_modules
-bootstrap5\package-lock.json
-bootstrap5\package.json
 
-vite-project\node_modules
-vite-project\package-lock.json
-vite-project\package.json
 
+bootstrap5
 # Logs
 logs
 *.log
