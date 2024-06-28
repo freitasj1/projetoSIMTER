@@ -57,3 +57,5 @@ botao_inserir.grid(row=2, columnspan=2, padx=10, pady=10)
 
 # run the interface
 root.mainloop()
+
+
