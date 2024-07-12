@@ -24,7 +24,7 @@
 }
 
 .sidebar {
-  background-color: #f4f4f4;
+  background-color: #1e6d1e;
   padding: 1rem;
   width: 200px;
 }
@@ -40,10 +40,20 @@
 }
 
 .card {
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: rgb(90, 31, 145);
+  border: 1px solid #811e1e;
   border-radius: 4px;
   padding: 1rem;
   flex: 1;
   text-align: center;
+  
+}
+.card:hover {
+  scale: 1.1;
+  transition: 0.5s;
+}
+
+.card:not(:hover) {
+  scale: 1;
+  transition: 1s;
 }
