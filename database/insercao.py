@@ -8,6 +8,7 @@ import mysql.connector
 def inserir_dados():
     nome = entry_nome.get() # if I want to input my data here, change to "input"
     id_dispositivo = entry_id.get() # here too
+    Lab = entry_Lab.get()
 
     if nome and id_dispositivo:
         try:
@@ -21,8 +22,8 @@ def inserir_dados():
             cursor = conn.cursor()
 
             
-            sql = "INSERT INTO devices (nome, id) VALUES (%s, %s)" # Insert datas into devices' table, in name and id
-            valores = (nome, id_dispositivo) #values that I will put
+            sql = "INSERT INTO devices (nome, ID, LAB) VALUES (%s, %s, %s)" # Insert datas into devices' table, in name and id
+            valores = (nome, id_dispositivo, Lab) #values that I will put
             cursor.execute(sql, valores)
             conn.commit()
 
@@ -51,9 +52,14 @@ label_id.grid(row=1, column=0, padx=10, pady=10)
 entry_id = tk.Entry(root)
 entry_id.grid(row=1, column=1, padx=10, pady=10)
 
+label_id = tk.Label(root, text="LAB:")
+label_id.grid(row=2, column=0, padx=10, pady=10)
+entry_Lab = tk.Entry(root)
+entry_Lab.grid(row=2, column=1, padx=10, pady=10)
+
 # CHATGPT
 botao_inserir = tk.Button(root, text="Inserir Dados", command=inserir_dados)
-botao_inserir.grid(row=2, columnspan=2, padx=10, pady=10)
+botao_inserir.grid(row=3, columnspan=2, padx=10, pady=10)
 
 # run the interface
 root.mainloop()
