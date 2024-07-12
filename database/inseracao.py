@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import messagebox
 import mysql.connector
 
-# Function that inserto datas into Database
+# Function that insert datas into Database
 def inserir_dados():
     nome = entry_nome.get() # if I want to input my data here, change to "input"
     id_dispositivo = entry_id.get() # here too
@@ -20,7 +20,7 @@ def inserir_dados():
             )
             cursor = conn.cursor()
 
-            # Inserindo os dados na tabela
+            
             sql = "INSERT INTO devices (nome, id) VALUES (%s, %s)" # Insert datas into devices' table, in name and id
             valores = (nome, id_dispositivo) #values that I will put
             cursor.execute(sql, valores)
