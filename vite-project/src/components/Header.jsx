@@ -2,7 +2,7 @@
 function Header() {
   return (
     <header className="header">
-      <h1>My Dashboard</h1>
+      <h1>Projeto Simter</h1>
     </header>
   );
 }

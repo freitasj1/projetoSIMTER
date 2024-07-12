@@ -4,10 +4,10 @@ function Sidebar() {
   return (
     <aside className="sidebar">
       <ul>
-        <li>Overview</li>
-        <li>Reports</li>
-        <li>Analytics</li>
-        <li>Settings</li>
+        <li>Equipamentos</li>
+        <li>Funcionários</li>
+        <li>Salas</li>
+        <li>Configurações</li>
       </ul>
     </aside>
   );

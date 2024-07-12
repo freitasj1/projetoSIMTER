@@ -5,9 +5,9 @@ function Dashboard() {
     <main className="dashboard">
       <h2>Dashboard</h2>
       <div className="cards">
-        <Card title="Card 1" content="This is some content for card 1." />
-        <Card title="Card 2" content="This is some content for card 2." />
-        <Card title="Card 3" content="This is some content for card 3." />
+        <Card title="Teste" content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos ipsa soluta obcaecati corrupti beatae hic aliquid quas distinctio eligendi asperiores dolore veritatis blanditiis impedit, debitis quaerat illum qui at dicta."/>
+        <Card title="Carta 2" content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos ipsa soluta obcaecati corrupti beatae hic aliquid quas distinctio eligendi asperiores dolore veritatis blanditiis impedit, debitis quaerat illum qui at dicta." />
+        <Card title="Carta 4" content="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos ipsa soluta obcaecati corrupti beatae hic aliquid quas distinctio eligendi asperiores dolore veritatis blanditiis impedit, debitis quaerat illum qui at dicta." />
       </div>
     </main>
   );
