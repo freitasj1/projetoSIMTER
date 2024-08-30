@@ -21,11 +21,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve arquivos estáticos da pasta 'public'
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'login')));
 
 // Rota para login.html
 app.get('/', function(request, response) {
-    response.sendFile(path.join(__dirname, 'public', 'login.html'));
+    response.sendFile(path.join(__dirname, 'login', 'login.html'));
 });
 
 // Rota para autenticação
@@ -40,7 +40,7 @@ app.post('/auth', function(request, response) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
-                response.redirect('/home'); // Redireciona para a rota /home
+                response.redirect('/home/index.html'); // Redireciona para index.html
             } else {
                 response.send('Incorrect Username and/or Password!');
             }           
@@ -50,15 +50,7 @@ app.post('/auth', function(request, response) {
     }
 });
 
-// Rota para home.html
-app.get('/home', function(request, response) {
-    if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname, 'public', 'home.html')); // Serve home.html
-    } else {
-        response.send('Please login to view this page!');
-    }
-});
-
+// Inicia o servidor na porta 3000
 app.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
 });
