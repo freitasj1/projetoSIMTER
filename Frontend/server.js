@@ -20,8 +20,8 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve arquivos estáticos da pasta 'public'
-app.use(express.static(path.join(__dirname, 'login')));
+// Serve arquivos estáticos da pasta 'Frontend'
+app.use(express.static(path.join(__dirname, 'Frontend')));
 
 // Rota para login.html
 app.get('/', function(request, response) {
@@ -40,7 +40,7 @@ app.post('/auth', function(request, response) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
-                response.redirect('/home/index.html'); // Redireciona para index.html
+                response.redirect('/home/index.html'); 
             } else {
                 response.send('Incorrect Username and/or Password!');
             }           
