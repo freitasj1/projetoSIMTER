@@ -6,7 +6,8 @@ app = Flask(__name__)
 
 @app.route('/api', methods=['GET'])
 def get_data():
-    data = {"lab": 1, "ids": [1, 2, 3]}
+
+    data = {myArray = ["Ford", "BMW", "Fiat"];}
 
     return jsonify(data)
 
@@ -17,3 +18,4 @@ def shutdown():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
