@@ -1,66 +1,23 @@
-const mysql = require('mysql');
-const express = require('express');
-const session = require('express-session');
-const path = require('path');
+// public/login/login.js
+document.getElementById('login-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
 
-const connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'projetoSimter',
-    database : 'nodelogin'
-});
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-const app = express();
-
-app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Serve arquivos estáticos da pasta "public"
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Serve o arquivo HTML na rota principal
-app.get('/', function(request, response) {
-    response.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
-
-app.post('/auth', function(request, response) {
-    let username = request.body.username;
-    let password = request.body.password;
-    
-    if (username && password) {
-        connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
-            if (error) throw error;
-
-            if (results.length > 0) {
-                request.session.loggedin = true;
-                request.session.username = username; 
-                response.redirect('/home');
-                // console.log();
-            } else {
-                response.send('Incorrect Username and/or Password!');
-            }           
-            response.end();
+    try {
+        const response = await axios.post('/auth', {
+            email: email,
+            password: password
         });
-    } else {
-        response.send('Please enter Username and Password!');
-        response.end();
-    }
-});
 
-app.get('/home', function(request, response) {
-    if (request.session.loggedin) {
-        response.send('Welcome back, ' + request.session.username + '!');
-    } else {
-        response.send('Please login to view this page!');
+        if (response.data.success) {
+            // Redireciona para a página inicial após login bem-sucedido
+            window.location.href = '/home/index.html';
+        } else {
+            alert('Login falhou: ' + response.data.message);
+        }
+    } catch (error) {
+        console.error('Erro ao autenticar:', error);
     }
-    response.end();
-});
-
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
 });
