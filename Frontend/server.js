@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
     password : 'projetoSimter',
-    database : 'nodelogin'
+    database : 'simter'
 });
 
 const app = express();
@@ -30,11 +30,11 @@ app.get('/', function(request, response) {
 
 // Rota para autenticação
 app.post('/auth', function(request, response) {
-    let username = request.body.username;
+    let email = request.body.email;
     let password = request.body.password;
     
-    if (username && password) {
-        connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+    if (email && password) {
+        connection.query('SELECT * FROM accounts WHERE email = ? AND password = ?', [email, password], function(error, results, fields) {
             if (error) throw error;
 
             if (results.length > 0) {
@@ -42,11 +42,11 @@ app.post('/auth', function(request, response) {
                 request.session.username = username;
                 response.redirect('/home/index.html'); // Redireciona para /home/index.html dentro de 'public'
             } else {
-                response.send('Incorrect Username and/or Password!');
+                response.send('Incorrect Email and/or Password!');
             }           
         });
     } else {
-        response.send('Please enter Username and Password!');
+        response.send('Please enter Email and Password!');
     }
 });
 
