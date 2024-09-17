@@ -13,6 +13,9 @@ body, html {
     
 }
 
+#email {
+  margin-bottom: 22px ;
+}
 
 
   
@@ -218,7 +221,7 @@ iframe {
 .wrap-input100 {
   width: 100%;
   position: relative;
-  border-bottom: 2px solid #adadad;
+  /* border-bottom: 2px solid #adadad; */
   margin-bottom: 37px;
 }
 
@@ -244,6 +247,7 @@ iframe {
   top: 0;
   left: 0;
   pointer-events: none;
+  border-bottom: 2px solid #adadad;
 }
 
 .focus-input100::before {
@@ -392,6 +396,7 @@ iframe {
   color: #fff;
   line-height: 1.2;
   text-transform: uppercase;
+  
 
   display: -webkit-box;
   display: -webkit-flex;

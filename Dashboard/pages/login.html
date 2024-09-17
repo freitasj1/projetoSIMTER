@@ -9,14 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="/Dashboard/assets/img/FaviconSimter.png"/>
 
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="../img/FaviconSimter.png"/>
-<!--===============================================================================================-->
 	
-	<link rel="stylesheet" href="login/style.css">
-	<link rel="stylesheet" href="login/util.css">
-
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/login.css">
 <!--===============================================================================================-->
 </head>
 <body>
@@ -24,7 +23,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form action="/auth" class="login100-form validate-form" method="post">
+				<form action="/auth" class="login100-form validate-form">
 					<span class="login100-form-title p-b-26">
 						Bem vindo!  
 					</span>
@@ -32,12 +31,12 @@
 						<i class="zmdi zmdi-font"></i>
 					</span>
                     <div class="image-container">
-                        <img id="foto" src="../img/SIMTERlogo2.png" alt="Logo SIMTER">
+                        <img id="foto" src="../assets/img/SIMTERlogo2.png" alt="Logo SIMTER">
                     </div>
                     
 
 					<label class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-						<input type="text" name="email"  id="email"  class="input100" required>
+						<input type="text" name="email" placeholder="Email" id="email"  class="input100" required>
 						<span class="focus-input100" data-placeholder="Email"></span>
 					</label>
 
@@ -76,7 +75,8 @@
 	<div id="dropDownSelect1"></div>
 	
 
-	<script src="login.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
     </style>
