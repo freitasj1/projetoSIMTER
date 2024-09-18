@@ -1,14 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="src/css/styles.css">
-
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
@@ -49,7 +45,7 @@
         <ul id="side_items">
             <li class="side-item active">
                 <a href="#">
-                  <i class="fa-solid fa-table"></i>
+                    <i class="fa-solid fa-chart-line"></i>
                     <span class="item-description">
                         Dashboard
                     </span>
@@ -113,7 +109,10 @@
             <span class="item-description">
                 Logout
             </span>
+            
         </button>
+      </div>
+      
     </div>
 </nav>
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
@@ -286,41 +285,49 @@
                       </td>
                       
                       <!-- Botão para abrir o modal -->
-                      <td class="align-middle">
-                        <button id="openModalBtn" class="font-weight-bold text-xs">Editar</button>
-        
-                        <!-- Modal -->
-                        <div id="modal" class="modal">
-                            <div class="modal-content">
-                                <span id="closeModalBtn" class="close">&times;</span>
-                                <h2>Editar Equipamento</h2>
-                                <form id="modalForm">
-                                    <div class="form-group">
-                                        <label for="equipamento">Equipamento</label>
-                                        <input type="text" id="equipamento" name="equipamento" value="Network Analyzer" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="id">ID</label>
-                                        <input type="text" id="id" name="id" value="012345" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <input type="text" id="status" name="status" value="Online" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="sala">Sala</label>
-                                        <input type="text" id="sala" name="sala" value="83" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="responsavel">Último Responsável</label>
-                                        <input type="text" id="responsavel" name="responsavel" value="Mateus Yuji" required>
-                                    </div>
-                                    
-                                    <button type="submit">Salvar</button>
-                                </form>
-                            </div>
-                        </div>
-                    </td>
+            <td class="align-middle">
+              <button id="openModalBtn" class="font-weight-bold text-xs">Editar</button>
+
+              <!-- Modal -->
+              <div id="modal" class="modal">
+                  <div class="modal-content">
+                      <span id="closeModalBtn" class="close">&times;</span>
+                      <h2>Editar Equipamento</h2>
+                      <form id="modalForm">
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="equipamento">Equipamento</label>
+                                  <input type="text" id="equipamento" class="input-modal" name="equipamento" value="Network Analyzer" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="id">ID</label>
+                                  <input type="text" id="id" name="id" value="012345" class="input-modal" required>
+                              </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="status">Status</label>
+                                  <input type="text" id="status" name="status" value="Online" class="input-modal" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="sala">Sala</label>
+                                  <input type="text" id="sala" name="sala" value="83" class="input-modal" required>
+                              </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="responsavel">Último Responsável</label>
+                                  <input type="text" id="responsavel" name="responsavel" class="input-modal" value="Mateus Yuji" required>
+                              </div>
+                          </div>
+                          
+                          <button type="submit">Salvar</button>
+                      </form>
+                  </div>
+              </div>
+          </td>
                     </tr>
                     <tr>
                       <td>

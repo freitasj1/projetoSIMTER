@@ -1,0 +1,327 @@
+
+
+/* Botão para abrir o modal */
+#openModalBtn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Modal */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed; /* Fixa no topo da tela */
+    top: 0;
+    left: 0;
+    width: 100%; /* Cobre toda a tela */
+    height: 100%; /* Altura completa */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com opacidade */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    display: flex;
+    overflow-y: auto; /* Habilita rolagem vertical se o conteúdo ultrapassar a altura */
+}
+
+/* Conteúdo do modal */
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%; /* Define o tamanho do modal */
+    
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-height: 90vh; /* Máximo de 90% da altura da tela */
+    overflow-y: auto; /* Permite rolagem caso o conteúdo ultrapasse o tamanho do modal */
+}
+
+/* Botão de fechar o modal (X) */
+.close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    flex-direction: column; /* Organiza os elementos em uma coluna */
+    
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    width: 48%;
+}
+
+.input-modal {
+    
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Botão de salvar */
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+}
+
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #e3e9f7;
+}
+
+
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    height: 100vh;
+    border-radius: 0px 18px 18px 0px;
+    position: relative;
+    transition: all .5s;
+    min-width: 82px;
+    z-index: 2;
+}
+
+#sidebar_content {
+    padding: 12px;
+}
+
+#user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+#user_avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+#user_infos {
+    display: flex;
+    flex-direction: column;
+}
+
+#user_infos span:last-child {
+    color: #6b6b6b;
+    font-size: 12px;
+}
+
+#side_items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+}
+
+.side-item {
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+}
+
+.side-item.active {
+    background-color: #4f46e5;
+}
+
+.side-item:hover:not(.active),
+#logout_btn:hover {
+    background-color: #e3e9f7;
+}
+
+.side-item a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0a0a0a;
+}
+
+.side-item.active a {
+    color: #e3e9f7;
+}
+
+.side-item a i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+
+#logout {
+    border-top: 1px solid #e3e9f7;
+    padding: 12px;
+}
+
+#logout_btn {
+    border: none;
+    padding: 12px;
+    font-size: 14px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-radius: 8px;
+    text-align: start;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#open_btn {
+    position: absolute;
+    top: 30px;
+    right: -10px;
+    background-color: #4f46e5;
+    color: #e3e9f7;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#open_btn_icon {
+    transition: transform .3s ease;
+}
+
+.open-sidebar #open_btn_icon {
+    transform: rotate(180deg);
+}
+
+.item-description {
+    width: 0px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    transition: width .6s;
+    height: 0px;
+}
+
+#sidebar.open-sidebar {
+    min-width: 15%;
+}
+
+#sidebar.open-sidebar .item-description {
+    width: 150px;
+    height: auto;
+}
+
+#sidebar.open-sidebar .side-item a {
+    justify-content: flex-start;
+    gap: 14px;
+}
+
+/* Contêiner flex que envolve a sidebar e o conteúdo principal */
+.layout-container {
+    display: flex;
+    width: 100%; /* Ocupa 100% da largura da página */
+    height: 100vh; /* Ocupa 100% da altura da página */
+}
+
+/* Sidebar */
+#sidebar {
+    min-width: 82px; /* Largura mínima da sidebar */
+    background-color: #ffffff;
+    height: 100vh; /* Sidebar com altura total da página */
+    border-radius: 0px 18px 18px 0px;
+    z-index: 2;
+    transition: all .5s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Conteúdo principal */
+#main-content {
+    flex-grow: 1; /* Ocupa todo o espaço restante ao lado da sidebar */
+    padding: 20px; /* Adiciona um padding interno para o conteúdo */
+    overflow-y: auto; /* Habilita rolagem vertical se o conteúdo exceder a tela */
+}
+
+/* Tabela */
+table {
+    width: 100%; /* A tabela ocupa 100% da largura do contêiner */
+    border-collapse: collapse;
+}
+
+td, th {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-content {
+    flex-grow: 1; /* Faz o conteúdo expandir para ocupar o espaço disponível */
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+  }
+  
+  .container-fluid {
+    height: 100%;
+  }
+  
+  .table-container {
+    height: 100%; /* Faz a tabela ocupar a altura total do container */
+    width: 100%; /* Opcional, se quiser que a tabela ocupe a largura total também */
+    overflow: auto; /* Permite o scroll apenas se o conteúdo for maior que o container */
+  }
+  
+  /* Se necessário, ajusta o sidebar para ter um comportamento fixo */
+  #sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 250px; /* Largura da sidebar */
+    background-color: #ccc;
+  }
+  
+  /* Ajuste do main para evitar sobreposição do sidebar */
+  .main-content {
+    margin-left: 250px; /* Compensa a largura da sidebar */
+  }
+  
+  
