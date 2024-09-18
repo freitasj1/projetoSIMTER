@@ -1,95 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-
-/* Botão para abrir o modal */
-#openModalBtn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
-
-/* Modal */
-.modal {
-    display: none; /* Escondido por padrão */
-    position: fixed; /* Fixa no topo da tela */
-    top: 0;
-    left: 0;
-    width: 100%; /* Cobre toda a tela */
-    height: 100%; /* Altura completa */
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com opacidade */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    display: flex;
-    overflow-y: auto; /* Habilita rolagem vertical se o conteúdo ultrapassar a altura */
-}
-
-/* Conteúdo do modal */
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%; /* Define o tamanho do modal */
-    
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-height: 90vh; /* Máximo de 90% da altura da tela */
-    overflow-y: auto; /* Permite rolagem caso o conteúdo ultrapasse o tamanho do modal */
-}
-
-/* Botão de fechar o modal (X) */
-.close {
-    float: right;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-/* Formulário */
-form {
-    display: flex;
-    flex-direction: column; /* Organiza os elementos em uma coluna */
-    
-}
-
-.form-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    width: 48%;
-}
-
-.input-modal {
-    
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Botão de salvar */
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-    align-self: flex-end;
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 600px) {
-    .form-row {
-        flex-direction: column;
-    }
-
-    .form-group {
-        width: 100%;
-    }
-}
-
 
 body {
     display: flex;
@@ -97,6 +13,12 @@ body {
     background-color: #e3e9f7;
 }
 
+main {
+    padding: 20px;
+    position: fixed;
+    z-index: 1;
+    padding-left: calc(82px + 20px);
+}
 
 #sidebar {
     display: flex;
@@ -105,10 +27,10 @@ body {
     background-color: #ffffff;
     height: 100vh;
     border-radius: 0px 18px 18px 0px;
-    position: relative;
+    position: fixed;
     transition: all .5s;
     min-width: 82px;
-    z-index: 2;
+    z-index: 3;
 }
 
 #sidebar_content {
@@ -244,84 +166,111 @@ body {
     gap: 14px;
 }
 
-/* Contêiner flex que envolve a sidebar e o conteúdo principal */
-.layout-container {
-    display: flex;
-    width: 100%; /* Ocupa 100% da largura da página */
-    height: 100vh; /* Ocupa 100% da altura da página */
-}
-
-/* Sidebar */
-#sidebar {
-    min-width: 82px; /* Largura mínima da sidebar */
-    background-color: #ffffff;
-    height: 100vh; /* Sidebar com altura total da página */
-    border-radius: 0px 18px 18px 0px;
-    z-index: 2;
-    transition: all .5s;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* Conteúdo principal */
-#main-content {
-    flex-grow: 1; /* Ocupa todo o espaço restante ao lado da sidebar */
-    padding: 20px; /* Adiciona um padding interno para o conteúdo */
-    overflow-y: auto; /* Habilita rolagem vertical se o conteúdo exceder a tela */
-}
-
-/* Tabela */
-table {
-    width: 100%; /* A tabela ocupa 100% da largura do contêiner */
-    border-collapse: collapse;
-}
-
-td, th {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-html, body {
-    height: 100%;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+  /* Dashboard layout */
+  .dashboard {
     display: flex;
-    flex-direction: column;
+    height: 100vh;
   }
   
+  /* Sidebar styling */
+  .sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+  }
+  
+  .sidebar h2 {
+    text-align: center;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 15px 10px;
+    margin: 10px 0;
+    background-color: #444;
+    text-align: center;
+    border-radius: 5px;
+  }
+  
+  .sidebar ul li:hover {
+    background-color: #555;
+  }
+  
+  /* Main content styling */
   .main-content {
-    flex-grow: 1; /* Faz o conteúdo expandir para ocupar o espaço disponível */
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+  }
+  
+  header {
+    padding-bottom: 20px;
+  }
+  
+  .columns {
     display: flex;
-    flex-direction: column;
-    justify-content: stretch;
+    gap: 20px;
   }
   
-  .container-fluid {
-    height: 100%;
+  /* Column styling */
+  .column {
+    flex: 1;
   }
   
-  .table-container {
-    height: 100%; /* Faz a tabela ocupar a altura total do container */
-    width: 100%; /* Opcional, se quiser que a tabela ocupe a largura total também */
-    overflow: auto; /* Permite o scroll apenas se o conteúdo for maior que o container */
+  /* Card styling */
+  .card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
   }
   
-  /* Se necessário, ajusta o sidebar para ter um comportamento fixo */
-  #sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 250px; /* Largura da sidebar */
-    background-color: #ccc;
+  .card h3 {
+    margin-bottom: 10px;
   }
   
-  /* Ajuste do main para evitar sobreposição do sidebar */
-  .main-content {
-    margin-left: 250px; /* Compensa a largura da sidebar */
+  .card p {
+    color: #666;
   }
   
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .columns {
+      flex-direction: column;
+    }
   
+    .sidebar {
+      width: 100px;
+    }
+  
+    .sidebar ul li {
+      font-size: 14px;
+    }
+  }
+  
+
+
+
+
+  #scroll-container {
+    display: contents;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  }
