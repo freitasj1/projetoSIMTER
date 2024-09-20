@@ -1,4 +1,3 @@
-// server.js
 const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
@@ -23,21 +22,25 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve arquivos estáticos a partir da pasta 'public'
+// Serve arquivos estáticos da pasta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
+// Serve arquivos estáticos da pasta 'home'
+app.use(express.static(path.join(__dirname, 'home')));
 
-// Rota para servir a página de login
-app.get('/', function(request, response) {
-    response.sendFile(path.join(__dirname, 'public', 'login', 'login.html'));
+app.use
+
+// Rota para a página de login
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login', 'login.html'));
 });
 
 // Rota para autenticação de login
-app.post('/auth', function(request, response) {
-    let email = request.body.email;
-    let password = request.body.password;
+app.post('/auth', (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
 
     if (email && password) {
-        connection.query('SELECT * FROM employees WHERE email = ?', [email], async function(error, results) {
+        connection.query('SELECT * FROM employees WHERE email = ?', [email], async (error, results) => {
             if (error) throw error;
 
             if (results.length > 0) {
@@ -45,30 +48,64 @@ app.post('/auth', function(request, response) {
 
                 // Comparar a senha fornecida com a senha criptografada armazenada
                 const match = await bcrypt.compare(password, storedPassword);
-                
+
                 if (match) {
-                    request.session.loggedin = true;
-                    request.session.email = email;
-                    // Redireciona para o /home/index.html após login bem-sucedido
-                    return response.redirect('/home/index.html');
+                    req.session.loggedin = true;
+                    req.session.email = email;
+                    // Redireciona para o dashboard após login bem-sucedido
+                    return res.redirect('/pages');
                 } else {
-                    return response.send('Senha incorreta!');
+                    return res.send('Senha incorreta!');
                 }
             } else {
-                return response.send('Usuário não encontrado!');
+                return res.send('Usuário não encontrado!');
             }
         });
     } else {
-        return response.send('Por favor, insira o email e a senha!');
+        res.send('Por favor, insira o email e a senha!');
     }
 });
 
-// Página inicial para usuários logados
-app.get('/home', function(request, response) {
-    if (request.session.loggedin) {
-        response.sendFile(path.join(__dirname, 'public', 'home', 'index.html'));
+// Rota protegida: Redireciona para /home/dashboard/index.html apenas se o usuário estiver logado
+app.get('/pages', (req, res) => {
+    if (req.session.loggedin) {
+        res.sendFile(path.join(__dirname, 'public', 'pages', 'index.html'));
     } else {
-        response.send('Por favor, faça login para acessar esta página!');
+        res.redirect('/');
+    }
+});
+
+// Rota protegida: Exemplo para acessar 'table.html'
+app.get('/home/table.html', (req, res) => {
+    if (req.session.loggedin) {
+        res.sendFile(path.join(__dirname, 'home', 'dashboard', 'table.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+// Rotas protegidas para outras páginas
+app.get('/config', (req, res) => {
+    if (req.session.loggedin) {
+        res.sendFile(path.join(__dirname, 'public', 'pages', 'config.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/edit', (req, res) => {
+    if (req.session.loggedin) {
+        res.sendFile(path.join(__dirname, 'public', 'pages', 'edit.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.get('/users', (req, res) => {
+    if (req.session.loggedin) {
+        res.sendFile(path.join(__dirname, 'public', 'pages', 'users.html'));
+    } else {
+        res.redirect('/');
     }
 });
 
@@ -76,4 +113,3 @@ app.get('/home', function(request, response) {
 app.listen(3000, () => {
     console.log('Servidor rodando em http://localhost:3000');
 });
-        
