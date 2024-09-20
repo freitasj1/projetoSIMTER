@@ -3389,7 +3389,7 @@ fieldset:disabled .btn {
     --bs-btn-bg: #e91e63;
     --bs-btn-border-color: #e91e63;
     --bs-btn-hover-color: #000;
-    --bs-btn-hover-bg: #0099ff;
+    --bs-btn-hover-bg: #4F46E5;
     --bs-btn-hover-border-color: #eb3573;
     --bs-btn-focus-shadow-rgb: 198, 26, 84;
     --bs-btn-active-color: #000;
@@ -20566,6 +20566,7 @@ hr.horizontal.gray-light {
 
 .border-radius-lg {
     border-radius: 0.5rem;
+    background-color: #4F46E5;
 }
 
 .border-radius-xl {

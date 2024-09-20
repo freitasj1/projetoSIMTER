@@ -23,3 +23,21 @@ window.addEventListener('click', (e) => {
 document.getElementById('open_btn').addEventListener('click', function () {
     document.getElementById('sidebar').classList.toggle('open-sidebar');
 });
+
+
+
+document.getElementById('toggleSidebar').addEventListener('click', function () {
+    var sidebar = document.getElementById('sidebar');
+    var mainContent = document.getElementById('mainContent');
+
+    // Alterna a classe de 'closed' e ajusta o conteúdo principal
+    if (sidebar.classList.contains('closed')) {
+        sidebar.classList.remove('closed');
+        mainContent.classList.remove('expanded');
+        mainContent.classList.add('collapsed');
+    } else {
+        sidebar.classList.add('closed');
+        mainContent.classList.remove('collapsed');
+        mainContent.classList.add('expanded');
+    }
+});
