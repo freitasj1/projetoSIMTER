@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const bcrypt = require('bcrypt'); // Biblioteca para criptografar e verificar senhas
+const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const connection = mysql.createConnection({
@@ -22,19 +22,24 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve arquivos estáticos da pasta 'public'
+// Serve apenas arquivos públicos (CSS, JS, imagens)
 app.use(express.static(path.join(__dirname, 'public')));
-// Serve arquivos estáticos da pasta 'home'
-app.use(express.static(path.join(__dirname, 'home')));
 
-app.use
+// Middleware de autenticação
+function authMiddleware(req, res, next) {
+    if (req.session.loggedin) {
+        next(); // Se estiver logado, continua
+    } else {
+        res.redirect('/'); // Se não estiver logado, redireciona para a página de login
+    }
+}
 
 // Rota para a página de login
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login', 'login.html'));
 });
 
-// Rota para autenticação de login
+// Autenticação de login
 app.post('/auth', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
@@ -45,14 +50,11 @@ app.post('/auth', (req, res) => {
 
             if (results.length > 0) {
                 const storedPassword = results[0].password;
-
-                // Comparar a senha fornecida com a senha criptografada armazenada
                 const match = await bcrypt.compare(password, storedPassword);
 
                 if (match) {
                     req.session.loggedin = true;
                     req.session.email = email;
-                    // Redireciona para o dashboard após login bem-sucedido
                     return res.redirect('/pages');
                 } else {
                     return res.send('Senha incorreta!');
@@ -66,50 +68,28 @@ app.post('/auth', (req, res) => {
     }
 });
 
-// Rota protegida: Redireciona para /home/dashboard/index.html apenas se o usuário estiver logado
+// Aplicar o middleware de autenticação a partir daqui
+app.use(authMiddleware);
+
+// Rota protegida para acessar o dashboard
 app.get('/pages', (req, res) => {
-    if (req.session.loggedin) {
-        res.sendFile(path.join(__dirname, 'public', 'pages', 'index.html'));
-    } else {
-        res.redirect('/');
-    }
+    res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
-// Rota protegida: Exemplo para acessar 'table.html'
-app.get('/home/table.html', (req, res) => {
-    if (req.session.loggedin) {
-        res.sendFile(path.join(__dirname, 'home', 'dashboard', 'table.html'));
-    } else {
-        res.redirect('/');
-    }
-});
-
-// Rotas protegidas para outras páginas
+// Outras rotas protegidas
 app.get('/config', (req, res) => {
-    if (req.session.loggedin) {
-        res.sendFile(path.join(__dirname, 'public', 'pages', 'config.html'));
-    } else {
-        res.redirect('/');
-    }
+    res.sendFile(path.join(__dirname, 'pages', 'config.html'));
 });
 
 app.get('/edit', (req, res) => {
-    if (req.session.loggedin) {
-        res.sendFile(path.join(__dirname, 'public', 'pages', 'edit.html'));
-    } else {
-        res.redirect('/');
-    }
+    res.sendFile(path.join(__dirname, 'pages', 'edit.html'));
 });
 
 app.get('/users', (req, res) => {
-    if (req.session.loggedin) {
-        res.sendFile(path.join(__dirname, 'public', 'pages', 'users.html'));
-    } else {
-        res.redirect('/');
-    }
+    res.sendFile(path.join(__dirname, 'pages', 'users.html'));
 });
 
-// Inicia o servidor na porta 3000
+// Inicia o servidor
 app.listen(3000, () => {
     console.log('Servidor rodando em http://localhost:3000');
 });
