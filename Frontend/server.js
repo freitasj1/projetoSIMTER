@@ -89,6 +89,15 @@ app.get('/users', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'users.html'));
 });
 
+app.get('/api/equipamentos', (req, res) => {
+    connection.query('SELECT nome, ID, status, SALA , responsavel FROM equipamentos', (error, results) => {
+        if (error) throw error;
+        res.json(results);  // Envia os dados como JSON
+    });
+});
+
+app.get()
+
 // Inicia o servidor
 app.listen(3000, () => {
     console.log('Servidor rodando em http://localhost:3000');
