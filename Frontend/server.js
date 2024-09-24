@@ -71,8 +71,21 @@ app.post('/auth', (req, res) => {
 // Aplicar o middleware de autenticação a partir daqui
 app.use(authMiddleware);
 
+
+app.get('/api/equipamentos', (req, res) => {
+    console.log('rota api funcionando');
+    connection.query('SELECT nome, ID, SALA, responsavel, status FROM devices', (error, results) => {
+        if (error) throw error;
+        res.json(results);
+        console.log(results)  // Envia os dados como JSON
+    });
+    console.log('saiu do query da tabela');
+});
+
+
 // Rota protegida para acessar o dashboard
 app.get('/pages', (req, res) => {
+    console.log('/pages aceito')
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
@@ -89,14 +102,6 @@ app.get('/users', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'users.html'));
 });
 
-app.get('/api/equipamentos', (req, res) => {
-    connection.query('SELECT nome, ID, status, SALA , responsavel FROM equipamentos', (error, results) => {
-        if (error) throw error;
-        res.json(results);  // Envia os dados como JSON
-    });
-});
-
-app.get()
 
 // Inicia o servidor
 app.listen(3000, () => {

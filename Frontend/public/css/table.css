@@ -283,7 +283,7 @@ main {
   /* Modal */
 
   /* Botão para abrir o modal */
-#openModalBtn {
+.openModalBtn {
     padding: 10px 20px;
     background-color: #4F46E5;
     color: white;
@@ -304,6 +304,8 @@ main {
     justify-content: center;
     align-items: center;
     overflow-y: auto;
+    z-index: 1000;
+    
 }
 
 /* Conteúdo do modal */
