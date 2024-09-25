@@ -1,32 +1,97 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,minimum-scale=1">
-		<title>Login</title>
-        <!-- the form awesome library is used to add icons to our form -->
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-        <!-- include the stylesheet file -->
-        <link href="login/style.css" rel="stylesheet" type="text/css">
-	</head>
-	<body>
-		<div class="login">
-			<h1>Login</h1>
-			<form action="/auth" method="post">
-				<label for="email">
-					<!-- font awesome icon -->
-					 
-					<i class="fas fa-user"></i>
-				</label>
-				<input type="text" name="email" placeholder="Email" id="email" required>
-				<label for="password">
-					<i class="fas fa-lock"></i>
-				</label>
-				<input type="password" name="password" placeholder="Password" id="password" required>
-				<input type="submit" value="Login">
-			</form>
+<html lang="pt-br">
+<head>
+	<title>Login V2</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="../img/FaviconSimter.png"/>
+<!--===============================================================================================-->
+	
+	<link rel="stylesheet" href="login/style.css">
+	<link rel="stylesheet" href="login/util.css">
+
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form action="/auth" class="login100-form validate-form" method="post">
+					<span class="login100-form-title p-b-26">
+						Bem vindo!  
+					</span>
+					<span class="login100-form-title p-b-48">
+						<i class="zmdi zmdi-font"></i>
+					</span>
+                    <div class="image-container">
+                        <img id="foto" src="../img/SIMTERlogo2.png" alt="Logo SIMTER">
+                    </div>
+                    
+
+					<label class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						<input type="text" name="email"  id="email"  class="input100" required>
+						<span class="focus-input100" data-placeholder="Email"></span>
+					</label>
+
+					<label class="wrap-input100 validate-input" data-validate="Enter password">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+						<input class="input100" type="password" id="password" name="password">
+						<span class="focus-input100" data-placeholder="Password"></span>
+					</label>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button id="login-button" class="login100-form-btn">
+								Login
+							</button>
+						</div>
+					</div>
+
+					<div class="text-center p-t-115">
+						<span class="txt1">
+							Don’t have an account?
+						</span>
+
+						<a class="txt2" href="#">
+							Sign Up
+						</a>
+					</div>
+				</form>
+			</div>
 		</div>
-	</body>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
 
 	<script src="login.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    </style>
+
+<script>
+    document.querySelectorAll('.input100').forEach(input => {
+      input.addEventListener('blur', function() {
+        if (input.value.trim() !== "") {
+          input.classList.add('has-val');
+        } else {
+          input.classList.remove('has-val');
+        }
+      });
+    });
+  </script>
+
+</body>
 </html>

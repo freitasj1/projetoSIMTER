@@ -2,12 +2,14 @@ const mysql = require('mysql');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : 'projetoSimter',
-    database : 'simter'
+    host: 'localhost',
+    user: 'root',
+    password: 'projetoSimter',
+    database: 'simter'
 });
 
 const app = express();
@@ -20,37 +22,88 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve arquivos estáticos a partir da pasta 'public'
+// Serve apenas arquivos públicos (CSS, JS, imagens)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rota para login.html
-app.get('/', function(request, response) {
-    response.sendFile(path.join(__dirname, 'public', 'login', 'login.html'));
+// Middleware de autenticação
+function authMiddleware(req, res, next) {
+    if (req.session.loggedin) {
+        next(); // Se estiver logado, continua
+    } else {
+        res.redirect('/'); // Se não estiver logado, redireciona para a página de login
+    }
+}
+
+// Rota para a página de login
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login', 'login.html'));
 });
 
-// Rota para autenticação
-app.post('/auth', function(request, response) {
-    let email = request.body.email;
-    let password = request.body.password;
-    
+// Autenticação de login
+app.post('/auth', (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+
     if (email && password) {
-        connection.query('SELECT * FROM accounts WHERE email = ? AND password = ?', [email, password], function(error, results, fields) {
+        connection.query('SELECT * FROM employees WHERE email = ?', [email], async (error, results) => {
             if (error) throw error;
 
             if (results.length > 0) {
-                request.session.loggedin = true;
-                request.session.username = username;
-                response.redirect('/home/index.html'); // Redireciona para /home/index.html dentro de 'public'
+                const storedPassword = results[0].password;
+                const match = await bcrypt.compare(password, storedPassword);
+
+                if (match) {
+                    req.session.loggedin = true;
+                    req.session.email = email;
+                    return res.redirect('/pages');
+                } else {
+                    return res.send('Senha incorreta!');
+                }
             } else {
-                response.send('Incorrect Email and/or Password!');
-            }           
+                return res.send('Usuário não encontrado!');
+            }
         });
     } else {
-        response.send('Please enter Email and Password!');
+        res.send('Por favor, insira o email e a senha!');
     }
 });
 
-// Inicia o servidor na porta 3000
+// Aplicar o middleware de autenticação a partir daqui
+app.use(authMiddleware);
+
+
+app.get('/api/equipamentos', (req, res) => {
+    console.log('rota api funcionando');
+    connection.query('SELECT nome, ID, SALA, responsavel, status FROM devices', (error, results) => {
+        if (error) throw error;
+        res.json(results);
+        console.log(results)  // Envia os dados como JSON
+    });
+    console.log('saiu do query da tabela');
+});
+
+
+// Rota protegida para acessar o dashboard
+app.get('/pages', (req, res) => {
+    console.log('/pages aceito')
+    res.sendFile(path.join(__dirname, 'pages', 'index.html'));
+});
+
+// Outras rotas protegidas
+app.get('/config', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'config.html'));
+});
+
+app.get('/edit', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'edit.html'));
+});
+
+app.get('/users', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'users.html'));
+});
+
+
+// Inicia o servidor
 app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
+    console.log('Servidor rodando em http://localhost:3000');
 });

@@ -1,0 +1,438 @@
+<tbody>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <!-- Equipamento -->
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Network Analyzer</h6>
+                                                      
+                          </div>
+                        </div>
+                      </td>
+                      <!-- ID -->
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">012345</p>
+                       
+                      </td>
+                      <!-- Status -->
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                      </td>
+                      <!-- Sala -->
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">83</span>
+                      </td>
+                      <!-- Ultimo responsável -->
+                      <td class="align-middle text-center">
+                        <h6 class="mb-0 text-sm">Mateus Yuji</h6>
+                      </td>
+                      
+                      <!-- Botão para abrir o modal -->
+            <td class="align-middle">
+              <button id="openModalBtn" class="font-weight-bold text-xs ">Editar</button>
+
+              <!-- Modal -->
+              <div id="modal" class="modal">
+                  <div class="modal-content">
+                      <span id="closeModalBtn" class="close">&times;</span>
+                      <h2>Editar Equipamento</h2>
+                      <form id="modalForm">
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="equipamento">Equipamento</label>
+                                  <input type="text" id="equipamento" class="input-modal" name="equipamento" value="Network Analyzer" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="id">ID</label>
+                                  <input type="text" id="id" name="id" value="012345" class="input-modal" required>
+                              </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="status">Status</label>
+                                  <input type="text" id="status" name="status" value="Online" class="input-modal" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="sala">Sala</label>
+                                  <input type="text" id="sala" name="sala" value="83" class="input-modal" required>
+                              </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="responsavel">Último Responsável</label>
+                                  <input type="text" id="responsavel" name="responsavel" class="input-modal" value="Mateus Yuji" required>
+                              </div>
+                          </div>
+                          
+                          <button type="submit">Salvar</button>
+                      </form>
+                  </div>
+              </div>
+          </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                           
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Alexa Liras</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Programator</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Laurent Perrier</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Executive</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">19/09/17</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                           
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Michael Levi</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Programator</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Richard Gran</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Manager</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Miriam Eric</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Programator</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">14/09/20</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            <!-- Equipamento -->
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Network Analyzer</h6>
+                                                      
+                          </div>
+                        </div>
+                      </td>
+                      <!-- ID -->
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">012345</p>
+                       
+                      </td>
+                      <!-- Status -->
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                      </td>
+                      <!-- Sala -->
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">83</span>
+                      </td>
+                      <!-- Ultimo responsável -->
+                      <td class="align-middle text-center">
+                        <h6 class="mb-0 text-sm">Mateus Yuji</h6>
+                      </td>
+                      
+                      <!-- Botão para abrir o modal -->
+            <td class="align-middle">
+              <button id="openModalBtn" class="font-weight-bold text-xs ">Editar</button>
+
+              <!-- Modal -->
+              <div id="modal" class="modal">
+                  <div class="modal-content">
+                      <span id="closeModalBtn" class="close">&times;</span>
+                      <h2>Editar Equipamento</h2>
+                      <form id="modalForm">
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="equipamento">Equipamento</label>
+                                  <input type="text" id="equipamento" class="input-modal" name="equipamento" value="Network Analyzer" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="id">ID</label>
+                                  <input type="text" id="id" name="id" value="012345" class="input-modal" required>
+                              </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="status">Status</label>
+                                  <input type="text" id="status" name="status" value="Online" class="input-modal" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="sala">Sala</label>
+                                  <input type="text" id="sala" name="sala" value="83" class="input-modal" required>
+                              </div>
+                          </div>
+
+                          <div class="form-row">
+                              <div class="form-group">
+                                  <label for="responsavel">Último Responsável</label>
+                                  <input type="text" id="responsavel" name="responsavel" class="input-modal" value="Mateus Yuji" required>
+                              </div>
+                          </div>
+                          
+                          <button type="submit">Salvar</button>
+                      </form>
+                  </div>
+              </div>
+          </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                           
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Alexa Liras</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Programator</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">11/01/19</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Laurent Perrier</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Executive</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">19/09/17</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                           
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Michael Levi</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Programator</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">24/12/08</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Richard Gran</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Manager</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Miriam Eric</h6>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Programator</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">14/09/20</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                          Edit
+                        </a>
+                      </td>
+                    </tr>

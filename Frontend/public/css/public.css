@@ -21731,6 +21731,7 @@ hr.horizontal.gray-light {
 .main-content,
 .sidenav {
     transition: all 0.2s ease-in-out;
+    background-color: #fff;
 }
 
 .sidenav {
