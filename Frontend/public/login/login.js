@@ -21,3 +21,8 @@ document.getElementById('login-button').addEventListener('click', async function
         console.error('Erro ao autenticar:', error);
     }
 });
+
+function setTopo(){
+    $(window).scrollTop(0);
+}
+$(window).bind('scroll', setTopo);

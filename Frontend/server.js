@@ -68,9 +68,25 @@ app.post('/auth', (req, res) => {
     }
 });
 
-// Aplicar o middleware de autenticação a partir daqui
-app.use(authMiddleware);
 
+app.get('/api/user/:id', (req, res) => {
+    const userId = req.params.id; // Captura o ID enviado pelo ESP32 via URL
+
+    // Consulta no banco de dados para verificar o nível do usuário
+    connection.query('SELECT nivel FROM users WHERE id = ?', [userId], (error, results) => {
+        if (error) {
+            console.error('Erro ao acessar o banco de dados:', error);
+            return res.status(500).json({ message: 'Erro ao acessar o banco de dados', error: true });
+        }
+
+        // Se o ID for encontrado e o nível for >= 2, retorna true, caso contrário false
+        if (results.length > 0 && results[0].nivel >= 2) {
+            res.json({ access: true }); // Retorna true
+        } else {
+            res.json({ access: false }); // Retorna false
+        }
+    });
+});
 
 app.get('/api/equipamentos', (req, res) => {
     console.log('rota api funcionando');
@@ -84,21 +100,21 @@ app.get('/api/equipamentos', (req, res) => {
 
 
 // Rota protegida para acessar o dashboard
-app.get('/pages', (req, res) => {
+app.get('/pages', authMiddleware, (req, res) => {
     console.log('/pages aceito')
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
 });
 
 // Outras rotas protegidas
-app.get('/config', (req, res) => {
+app.get('/config', authMiddleware, (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'config.html'));
 });
 
-app.get('/edit', (req, res) => {
+app.get('/edit', authMiddleware, (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'edit.html'));
 });
 
-app.get('/users', (req, res) => {
+app.get('/users', authMiddleware, (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'users.html'));
 });
 

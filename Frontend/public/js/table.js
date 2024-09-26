@@ -54,8 +54,46 @@ async function fetchEquipamentos() {
                     <h6 class="mb-0 text-sm">${equip.responsavel}</h6>
                 </td>
                 <td class="align-middle">
-                    <button class="openModalBtn font-weight-bold text-xs">Editar</button>
-                </td>
+          <button class="openModalBtn font-weight-bold text-xs">Editar</button> <!-- Botão Editar -->
+          <!-- Modal -->
+          <div id="modal" class="modal">
+              <div class="modal-content">
+                  <span id="closeModalBtn" class="close">&times;</span>
+                  <h2>Editar Equipamento</h2>
+                  
+                    <form id="modalForm">
+                      <div class="form-row">
+                          <div class="form-group">
+                              <label for="equipamento">Equipamento</label>
+                              <input type="text" id="equipamento" class="input-modal" name="equipamento" value="${equip.nome}" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="id">ID</label>
+                              <input type="text" id="id" name="id" value="${equip.ID}" class="input-modal" required>
+                          </div>
+                      </div>
+
+                      <div class="form-row">
+                          <div class="form-group">
+                              <label for="status">Status</label>
+                              <input type="text" id="status" name="status" value="${equip.status}" class="input-modal" required>
+                          </div>
+                          <div class="form-group">
+                              <label for="sala">Sala</label>
+                              <input type="text" id="sala" name="sala" value="${equip.SALA}" class="input-modal" required>
+                          </div>
+                      </div>
+
+                      <div class="form-row">
+                          <div class="form-group">
+                              <label for="responsavel">Último Responsável</label>
+                              <input type="text" id="responsavel" name="${equip.responsavel}" class="input-modal" value="Mateus Yuji" required>
+                          </div>
+                      </div>
+                      
+                      <button type="submit">Salvar</button>
+                  
+                  </form>
             `;
         
             // Adiciona a linha à tabela

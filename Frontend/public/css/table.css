@@ -75,7 +75,7 @@ main {
 }
 
 .side-item.active {
-    background-color: #4f46e5;
+    background-color: #060079;
 }
 
 .side-item:hover:not(.active),
@@ -407,3 +407,16 @@ button {
     margin-left: 250px; /* Espaço maior quando o sidebar estiver aberto */
   }
   
+  body::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: #006C8F;        /* color of the tracking area */
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background-color: #ccc;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 2px solid #fff;  /* creates padding around scroll thumb */
+  }

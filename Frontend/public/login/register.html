@@ -14,8 +14,8 @@
 	<link rel="icon" type="image/png" href="../img/FaviconSimter.png"/>
 <!--===============================================================================================-->
 	
-	<link rel="stylesheet" href="login/style.css">
-	<link rel="stylesheet" href="login/util.css">
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="util.css">
 
 <!--===============================================================================================-->
 </head>
@@ -24,7 +24,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form action="/auth" class="login100-form validate-form" method="post">
+				<form action="/auth" class="login100-form validate-form" method="post" enctype="multipart/form-data">
 					<span class="login100-form-title p-b-26">
 						Bem vindo!  
 					</span>
@@ -38,35 +38,47 @@
 
 					<label class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
 						<input type="text" name="email"  id="email"  class="input100" required>
+						<span class="focus-input100" data-placeholder="Nome"></span>
+					</label>
+
+					<label class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						<input type="text" name="email"  id="email"  class="input100" required>
 						<span class="focus-input100" data-placeholder="Email"></span>
 					</label>
 
+                    
 					<label class="wrap-input100 validate-input" data-validate="Enter password">
-						<span class="btn-show-pass">
-							<i class="zmdi zmdi-eye"></i>
+                        <span class="btn-show-pass">
+                            <i class="zmdi zmdi-eye"></i>
 						</span>
 						<input class="input100" type="password" id="password" name="password">
 						<span class="focus-input100" data-placeholder="Password"></span>
 					</label>
+                    
+
+                    <!-- <label class="wrap-input100 validate-input" data-validate="Please upload a photo">
+                        <input type="file" name="photo" id="photo" class="input100" accept="image/*" required>
+                        <span class="focus-input100" data-placeholder="Upload Photo"></span>
+                    </label> -->
+                    
+
+                    <label class="wrap-input100 validate-input" >
+                        <input type="text" name="email"  id="email"  class="input100" >
+                        <span class="focus-input100" data-placeholder="Função"></span>
+                    </label>
+
+                   
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
 							<button id="login-button" class="login100-form-btn">
-								Login
+								Próximo Passo
 							</button>
 						</div>
 					</div>
 
-					<div class="text-center p-t-115">
-						<span class="txt1">
-							Don’t have an account?
-						</span>
-
-						<a class="txt2" href="login/register.html">
-							Sign Up
-						</a>
-					</div>
+					
 				</form>
 			</div>
 		</div>
