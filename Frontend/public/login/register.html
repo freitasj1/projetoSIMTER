@@ -1,109 +1,89 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-	<title>Login V2</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-
+    <title>Cadastro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="../img/FaviconSimter.png"/>
-<!--===============================================================================================-->
-	
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="util.css">
-
-<!--===============================================================================================-->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="util.css">
 </head>
 <body>
-	
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<form action="/auth" class="login100-form validate-form" method="post" enctype="multipart/form-data">
-					<span class="login100-form-title p-b-26">
-						Bem vindo!  
-					</span>
-					<span class="login100-form-title p-b-48">
-						<i class="zmdi zmdi-font"></i>
-					</span>
-                    <div class="image-container">
-                        <img id="foto" src="../img/SemFundoReta4k.png" alt="Logo SIMTER">
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form action="/auth" class="login100-form validate-form" method="post" enctype="multipart/form-data">
+                <span class="login100-form-title p-b-26">
+                    Bem vindo!
+                </span>
+                <span class="login100-form-title p-b-48">
+                    <i class="zmdi zmdi-font"></i>
+                </span>
+                <div id="message"></div> <!-- Div para exibir mensagens -->
+
+                <!-- Captura de Foto -->
+                <div class="image-container">
+                    <img id="capturedPhoto" src="../img/SemFundoReta4k.png" alt="Foto do usuário">
+                </div>
+                <div class="camera-controls">
+                    <video id="video" autoplay style="width: 100%; display:none;"></video>
+                    <canvas id="canvas" style="display:none;"></canvas>
+                    <button id="capture" class="login100-form-btn" type="button">Acessar Câmera</button>
+                </div>
+
+                <!-- Campos de Cadastro -->
+                <label class="wrap-input100 validate-input">
+                    <input type="text" name="nome" id="nome" class="input100" required>
+                    <span class="focus-input100" data-placeholder="Nome"></span>
+                </label>
+
+                <label class="wrap-input100 validate-input">
+                    <input type="email" name="email" id="email" class="input100" required>
+                    <span class="focus-input100" data-placeholder="Email"></span>
+                </label>
+
+                <label class="wrap-input100 validate-input" data-validate="Enter password">
+                    <span class="btn-show-pass">
+                        <i class="zmdi zmdi-eye"></i>
+                    </span>
+                    <input class="input100" type="password" id="password" name="password">
+                    <span class="focus-input100" data-placeholder="Password"></span>
+                </label>
+
+                <label class="wrap-input100 validate-input">
+                    <input type="text" name="funcao" id="funcao" class="input100">
+                    <span class="focus-input100" data-placeholder="Função"></span>
+                </label>
+
+                <!-- Botão de Registro -->
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button id="register-button" class="login100-form-btn" type="submit">
+                            Registrar
+                        </button>
                     </div>
-                    
+                </div>
 
-					<label class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-						<input type="text" name="email"  id="email"  class="input100" required>
-						<span class="focus-input100" data-placeholder="Nome"></span>
-					</label>
+            </form>
+        </div>
+    </div>
+</div>
 
-					<label class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-						<input type="text" name="email"  id="email"  class="input100" required>
-						<span class="focus-input100" data-placeholder="Email"></span>
-					</label>
-
-                    
-					<label class="wrap-input100 validate-input" data-validate="Enter password">
-                        <span class="btn-show-pass">
-                            <i class="zmdi zmdi-eye"></i>
-						</span>
-						<input class="input100" type="password" id="password" name="password">
-						<span class="focus-input100" data-placeholder="Password"></span>
-					</label>
-                    
-
-                    <!-- <label class="wrap-input100 validate-input" data-validate="Please upload a photo">
-                        <input type="file" name="photo" id="photo" class="input100" accept="image/*" required>
-                        <span class="focus-input100" data-placeholder="Upload Photo"></span>
-                    </label> -->
-                    
-
-                    <label class="wrap-input100 validate-input" >
-                        <input type="text" name="email"  id="email"  class="input100" >
-                        <span class="focus-input100" data-placeholder="Função"></span>
-                    </label>
-
-                   
-
-					<div class="container-login100-form-btn">
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button id="login-button" class="login100-form-btn">
-								Próximo Passo
-							</button>
-						</div>
-					</div>
-
-					
-				</form>
-			</div>
-		</div>
-	</div>
-	
-
-	<div id="dropDownSelect1"></div>
-	
-
-	<script src="login.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-    </style>
-
+<script src="register.js"></script>
 <script>
-    document.querySelectorAll('.input100').forEach(input => {
-      input.addEventListener('blur', function() {
-        if (input.value.trim() !== "") {
-          input.classList.add('has-val');
-        } else {
-          input.classList.remove('has-val');
+
+const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+
+    if (message === 'cadastro_realizado') {
+            document.getElementById('message').innerText = 'Cadastro realizado com sucesso! Você pode fazer login agora.';
         }
-      });
-    });
-  </script>
+
+</script>
 
 </body>
 </html>

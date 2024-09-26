@@ -416,6 +416,13 @@ iframe {
   left: 0;
 }
 
+#capture, #take-photo {
+  border: solid 1px transparent;
+  background-color: #006C8F;
+  color: #fff;
+  border-radius: 20px;
+}
+
 
 /*------------------------------------------------------------------
 [ Responsive ]*/
