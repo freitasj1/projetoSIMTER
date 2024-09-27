@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-
 const app = express();
 const port = 8000;
 
@@ -11,8 +10,8 @@ app.use(bodyParser.json());
 // Conexão com o banco de dados MySQL
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'simter',
-  password: 'projetoSimter',
+  user: 'root',
+  password: 'simter',
   database: 'simter'
 });
 
@@ -25,27 +24,59 @@ db.connect((err) => {
 });
 
 // Rota para receber o POST do ESP32
-app.post('/api/data', (req, res) => {
-  const data = req.body; // Vetor de informações enviado pelo ESP32
-  
-  // Aqui você pode comparar os dados com o banco de dados
-  // Exemplo: Verificar se um valor específico está presente no banco
+app.post('/api', (req, res) => {
+  console.log("Requisição recebida: ", req.body);
+  const { ids, lab } = req.body;
 
-  const sqlQuery = 'SELECT * FROM your_table WHERE column_name = ?';
-  db.query(sqlQuery, [data.someValue], (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: 'Erro na consulta ao banco de dados' });
-    }
+  // Verifica se o vetor ids está presente e não está vazio
+  if (!Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({ error: 'Nenhum beacon detectado' });
+  }
 
-    // Comparar os dados
-    if (result.length > 0) {
-      res.json({ message: 'Informação encontrada no banco de dados', data: result });
-    } else {
-      res.json({ message: 'Informação não encontrada' });
-    }
+  // Inicializa um array para armazenar as mensagens
+  let results = [];
+
+  // Função para processar cada ID
+  const checkID = (id, callback) => {
+    const sqlQuery = 'SELECT * FROM devices WHERE SALA = ? AND UUID = ?';
+    db.query(sqlQuery, [lab, id], (err, result) => {
+      if (err) {
+        callback(`Erro na consulta do ID ${id}`);
+      } else if (result.length > 0) {
+        callback(`ID ${id} está presente`);
+      } else {
+        callback(`ID ${id} não está presente`);
+      }
+    });
+  };
+
+  // Percorre os ids e verifica cada um deles
+  let processed = 0;  // Contador para garantir que todas as consultas foram feitas
+  ids.forEach(id => {
+    checkID(id, (message) => {
+      results.push(message);
+      processed++;
+
+      // Quando todas as verificações forem concluídas, enviar a resposta
+      if (processed === ids.length) {
+        res.json({ message: results });
+      }
+    });
   });
 });
 
+// Função para pegar o IP do servidor
+const os = require('os');
+const interfaces = os.networkInterfaces();
+for (let iface in interfaces) {
+  interfaces[iface].forEach((details) => {
+    if (details.family === 'IPv4' && !details.internal) {
+      console.log(`Servidor rodando no IP: ${details.address}:${port}`);
+    }
+  });
+};
+
+// Inicializa o servidor na porta especificada
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
