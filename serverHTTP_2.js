@@ -59,7 +59,7 @@ app.post('/api', (req, res) => {
 
       // Quando todas as verificações forem concluídas, enviar a resposta
       if (processed === ids.length) {
-        res.json({ message: results });
+        console.log({ message: results });
       }
     });
   });
