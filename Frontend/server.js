@@ -4,17 +4,13 @@ const session = require('express-session');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const bodyParser = require('body-parser');
 const fs = require('fs');
 const multer = require('multer');
-
 const uploadDir = path.join(__dirname, 'uploads');
-
-
-const storage = multer.memoryStorage(); // Armazenar arquivos na memória
+const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
-// Crie a pasta de uploads se não existir
+
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -32,31 +28,32 @@ const connection = mysql.createConnection({
 
 
 app.use(session({
-    secret: 'secret',
+    secret: 'projetoSimter',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve apenas arquivos públicos (CSS, JS, imagens)
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware de autenticação
+// middleware de autenticação
 function authMiddleware(req, res, next) {
     if (req.session.loggedin) {
-        next(); // Se estiver logado, continua
+        next(); 
     } else {
-        res.redirect('/'); // Se não estiver logado, redireciona para a página de login
+        res.redirect('/'); 
     }
 }
 
-// Rota para a página de login
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login', 'login.html'));
 });
 
-// Autenticação de login
+//autenticação
 app.post('/auth', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
@@ -92,12 +89,12 @@ app.post('/register', upload.single('photo'), (req, res) => {
     const email = req.body.email;
     const password = req.body.password; 
     const funcao = req.body.funcao;
-    const ID = null; // Você pode definir manualmente mais tarde
+    const ID = null; 
     const nivel = 1;
 
     console.log('Dados recebidos:', { nome, email, password, funcao });
 
-    // Verifica se os campos essenciais foram enviados
+    
     if (!nome || !email || !password) {
         console.error('Erro: Campos essenciais faltando.');
         return res.status(400).json({ success: false, message: 'Nome, email e senha são obrigatórios' });
@@ -125,14 +122,14 @@ app.post('/register', upload.single('photo'), (req, res) => {
         console.log('Nenhuma foto enviada. O restante dos dados será salvo.');
     }
 
-    // Criptografar a senha usando bcrypt
+    
     bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
             console.error('Erro ao criptografar a senha:', err);
             return res.status(500).json({ success: false, message: 'Erro ao processar a senha' });
         }
 
-        // Inserir os dados no banco de dados
+        
         const sql = 'INSERT INTO employees (nome, email, password, nivel, funcao, foto, ID) VALUES (?, ?, ?, ?, ?, ?, ?)';
         connection.query(sql, [nome, email, hashedPassword, nivel, funcao, photoPath || null, ID], (err, result) => {
             if (err) {
@@ -141,8 +138,8 @@ app.post('/register', upload.single('photo'), (req, res) => {
             }
 
             console.log('Cadastro realizado com sucesso!');
-            // Redireciona para a página de sucesso
-            res.redirect('/pages'); // Redireciona para a página desejada
+            
+            res.redirect('/'); 
         });
     });
 });
@@ -150,41 +147,108 @@ app.post('/register', upload.single('photo'), (req, res) => {
 
 
 
-
-
-
-
 app.get('/api/user/:id', (req, res) => {
-    const userId = req.params.id; // Captura o ID enviado pelo ESP32 via URL
-
-    // Consulta no banco de dados para verificar o nível do usuário
-    connection.query('SELECT nivel FROM users WHERE id = ?', [userId], (error, results) => {
+    const userId = req.params.id; 
+    req.session.id = userId
+    console.log('ID recebido: ', userId);
+    
+    connection.query('SELECT nivel FROM employees WHERE id = ?', [userId], (error, results) => {
         if (error) {
             console.log('Erro ao acessar o banco de dados:', error);
             return res.status(500).json({ message: 'Erro ao acessar o banco de dados', error: true });
         }
 
-        // Se o ID for encontrado e o nível for >= 2, retorna true, caso contrário false
+        
         if (results.length > 0 && results[0].nivel >= 2) {
-            res.json({ access: true }); // Retorna true
+            res.json({ access: true });
+            console.log('acesso permitido');
+            req.session.id = userId
         } else {
-            res.json({ access: false }); // Retorna false
+            res.json({ access: false });
+            console.log('acesso negado');
         }
     });
 });
+
+
+app.post('/api', (req, res) => {
+    console.log("Requisição recebida: ", req.body);
+    const { ids, lab } = req.body;
+  
+    if (!Array.isArray(ids) || ids.length === 0) {
+      console.log("Nenhum beacon detectado");
+    }
+  
+    const sqlQuery = 'SELECT * FROM devices WHERE sala = ? AND UUID IN (?)';
+    db.query(sqlQuery, [lab, ids], (err, result) => {
+      if (err) {
+        console.log("Erro na consulta ao banco de dados", err);
+      }
+  
+      if (result && result.length > 0) {
+        console.log("Informação encontrada no banco de dados', data: result");
+      } else {
+        console.log("Nenhum dispositivo encontrado para os parâmetros fornecidos");
+      }
+    });
+  });
+  
 
 app.get('/api/equipamentos', (req, res) => {
     console.log('rota api funcionando');
     connection.query('SELECT nome, ID, SALA, responsavel, status FROM devices', (error, results) => {
         if (error) throw error;
         res.json(results);
-        console.log(results)  // Envia os dados como JSON
+        console.log('Equipamentos solicitados'); 
     });
-    console.log('saiu do query da tabela');
+    
+    
+});
+app.get('/api/users', (req, res) => {
+    const email = req.session.email
+    connection.query('SELECT nome, foto, funcao FROM employees WHERE email = ?',[email], (error, results) => {
+        if (error) throw error;
+        // res.json(results);
+        console.log('infos do user solicitada');
+        if (results.length > 0){
+            res.json(results[0]);
+            console.log('foto enviada para frontend');
+        } 
+        else {
+            res.status(404).send('Usuário não encontrado!');
+            console.log('infos não achadas');
+        }
+    });
+    
 });
 
 
-// Rota protegida para acessar o dashboard
+
+// app.get('/api/users', async (req, res) => {
+//     try {
+//         const userEmail = req.session.email;  
+//         const query = 'SELECT nome AS name, funcao AS `function`, foto AS avatar FROM employees WHERE email = ?';
+
+        
+//         console.log('email usado: ', userEmail);
+//         console.log("getUserInfo requisitado");
+
+//         const [user] = await connection.query(query, [userEmail]);
+//         if (user.length > 0) {
+//             res.json(user[0]);  // Retorna o primeiro usuário encontrado
+//         } else {
+//             res.status(404).send('Usuário não encontrado');
+//         }
+//     } catch (error) {
+//         console.error('Erro ao buscar usuário:', error);
+//         res.status(500).send('Erro no servidor');
+//     }
+// });
+
+
+
+
+
 app.get('/pages', authMiddleware, (req, res) => {
     console.log('/pages aceito')
     res.sendFile(path.join(__dirname, 'pages', 'index.html'));
@@ -204,7 +268,31 @@ app.get('/users', authMiddleware, (req, res) => {
 });
 
 
-// Inicia o servidor
+app.post('/api/save', async (req, res) => {
+    const { equipamento, id, sala, newColumn } = req.body;
+
+    try {
+        
+        const query = 'INSERT INTO equipamentos (equipamento, id, sala) VALUES (?, ?, ?, ?, ?)';
+        await connection.query(query, [equipamento, id, sala]);
+
+        
+        if (newColumn && newColumn.name && newColumn.type) {
+            const alterQuery = `ALTER TABLE equipamentos ADD COLUMN ${newColumn.name} ${newColumn.type}`;
+            await connection.query(alterQuery);
+            console.log(`Nova coluna ${newColumn.name} adicionada com sucesso!`);
+        }
+
+        res.json({ message: 'Dados salvos com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao salvar os dados:', error);
+        res.status(500).json({ message: 'Erro ao salvar os dados.' });
+    }
+});
+
+
+
+
 app.listen(3000, () => {
     console.log('Servidor rodando em http://localhost:3000');
 });

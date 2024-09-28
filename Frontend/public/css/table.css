@@ -75,7 +75,7 @@ main {
 }
 
 .side-item.active {
-    background-color: #060079;
+    background-color: #4f46e5;
 }
 
 .side-item:hover:not(.active),
@@ -285,11 +285,19 @@ main {
   /* Botão para abrir o modal */
 .openModalBtn {
     padding: 10px 20px;
-    background-color: #4F46E5;
+    background-color: #006C8F;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}
+.openModalBtn2 {
+  padding: 10px 20px;
+  background-color: mediumturquoise;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 /* Modal */
@@ -420,3 +428,6 @@ button {
     border-radius: 20px;       /* roundness of the scroll thumb */
     border: 2px solid #fff;  /* creates padding around scroll thumb */
   }
+
+
+  

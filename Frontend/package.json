@@ -6,5 +6,23 @@
     "express-session": "^1.18.0",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1"
-  }
+  },
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "estrutura do projeto SIMTER",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freitasj1/projetoSIMTER.git"
+  },
+  "author": "freitasj1",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/freitasj1/projetoSIMTER/issues"
+  },
+  "homepage": "https://github.com/freitasj1/projetoSIMTER#readme"
 }

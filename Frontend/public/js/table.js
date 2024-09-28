@@ -7,7 +7,7 @@ const closeModalBtn = document.getElementById('closeModalBtn');
 let isFetching = false;
 
 async function fetchEquipamentos() {
-    if (isFetching) return;  // Se já está buscando, não faz nova requisição
+    if (isFetching) return;  
 
     isFetching = true;
     try {
@@ -30,7 +30,7 @@ async function fetchEquipamentos() {
         }
         tableBody.innerHTML = '';  // Limpa o conteúdo anterior
 
-        equipamentos.forEach((equip) => {
+        equipamentos.forEach((equip, index) => {
             // Cria uma nova linha <tr>
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -54,56 +54,57 @@ async function fetchEquipamentos() {
                     <h6 class="mb-0 text-sm">${equip.responsavel}</h6>
                 </td>
                 <td class="align-middle">
-          <button class="openModalBtn font-weight-bold text-xs">Editar</button> <!-- Botão Editar -->
-          <!-- Modal -->
-          <div id="modal" class="modal">
-              <div class="modal-content">
-                  <span id="closeModalBtn" class="close">&times;</span>
-                  <h2>Editar Equipamento</h2>
-                  
-                    <form id="modalForm">
-                      <div class="form-row">
-                          <div class="form-group">
-                              <label for="equipamento">Equipamento</label>
-                              <input type="text" id="equipamento" class="input-modal" name="equipamento" value="${equip.nome}" required>
-                          </div>
-                          <div class="form-group">
-                              <label for="id">ID</label>
-                              <input type="text" id="id" name="id" value="${equip.ID}" class="input-modal" required>
-                          </div>
-                      </div>
-
-                      <div class="form-row">
-                          <div class="form-group">
-                              <label for="status">Status</label>
-                              <input type="text" id="status" name="status" value="${equip.status}" class="input-modal" required>
-                          </div>
-                          <div class="form-group">
-                              <label for="sala">Sala</label>
-                              <input type="text" id="sala" name="sala" value="${equip.SALA}" class="input-modal" required>
-                          </div>
-                      </div>
-
-                      <div class="form-row">
-                          <div class="form-group">
-                              <label for="responsavel">Último Responsável</label>
-                              <input type="text" id="responsavel" name="${equip.responsavel}" class="input-modal" value="Mateus Yuji" required>
-                          </div>
-                      </div>
-                      
-                      <button type="submit">Salvar</button>
-                  
-                  </form>
+                    <button class="openModalBtn font-weight-bold text-xs" data-modal="modal-${index}">Editar</button>
+                    <div id="modal-${index}" class="modal">
+                        <div class="modal-content">
+                            <span class="close" data-modal="modal-${index}">&times;</span>
+                            <h2>Editar Equipamento</h2>
+                            <form id="modalForm-${index}">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="equipamento-${index}">Equipamento</label>
+                                        <input type="text" id="equipamento-${index}" class="input-modal" name="equipamento" value="${equip.nome}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="id-${index}">ID</label>
+                                        <input type="text" id="id-${index}" name="id" value="${equip.ID}" class="input-modal" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="status-${index}">Status</label>
+                                        <input type="text" id="status-${index}" name="status" value="${equip.status}" class="input-modal" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sala-${index}">Sala</label>
+                                        <input type="text" id="sala-${index}" name="sala" value="${equip.SALA}" class="input-modal" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="responsavel-${index}">Último Responsável</label>
+                                        <input type="text" id="responsavel-${index}" name="responsavel" class="input-modal" value="${equip.responsavel}" required>
+                                    </div>
+                                </div>
+                                <button type="submit">Salvar</button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
             `;
-        
+            
             // Adiciona a linha à tabela
             tableBody.appendChild(row);
         
-            // Adiciona o event listener ao botão dentro da linha
-            row.querySelector('#openModalBtn').addEventListener('click', () => {
-                modal.style.display = 'flex';
+            // Event listeners para abrir/fechar o modal
+            row.querySelector(`button[data-modal="modal-${index}"]`).addEventListener('click', () => {
+                document.getElementById(`modal-${index}`).style.display = 'flex';
             });
-        });    
+            row.querySelector(`span[data-modal="modal-${index}"]`).addEventListener('click', () => {
+                document.getElementById(`modal-${index}`).style.display = 'none';
+            });
+        });
+            
     } catch (error) {
         console.error('Erro ao buscar os equipamentos:', error);
     } finally {
@@ -111,10 +112,36 @@ async function fetchEquipamentos() {
         console.log('fetch = false');
     }
 }
+
+async function fetchUserData() {
+    try {
+        const response = await fetch('/api/users');
+        if (!response.ok) {
+            throw new Error('Erro ao buscar dados do usuário');
+        }
+
+        const userData = await response.json();
+
+        // Seleciona os elementos do HTML
+        const userName = document.getElementById('user_name');
+        const userFunction = document.getElementById('user_function');
+        const userAvatar = document.getElementById('user_avatar');
+
+        // Define os valores da tabela
+        userName.textContent = userData.nome;  // Nome do usuário
+        userFunction.textContent = userData.funcao;  // Função do usuário
+        userAvatar.src = userData.foto;  // Caminho da imagem do usuário
+    } catch (error) {
+        console.error('Erro ao carregar os dados do usuário:', error);
+    }
+}
+// Chama a função ao carregar a página
+
 console.log('saiu do fetch');
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página carregada, iniciando fetch de equipamentos');
-    fetchEquipamentos();  // Faz o primeiro carregamento dos dados
+    fetchEquipamentos();
+    fetchUserData();  // Faz o primeiro carregamento dos dados
     setInterval(fetchEquipamentos, 100000);  // Atualiza a cada 10 segundos
 });
 
@@ -153,7 +180,7 @@ document.getElementById('open_btn').addEventListener('click', function () {
 
 
 
-document.getElementById('toggleSidebar').addEventListener('click', function () {
+document.getElementById('toggleSidebar').addEventListener('click', function () {  
     var sidebar = document.getElementById('sidebar');
     var mainContent = document.getElementById('mainContent');
 
@@ -168,7 +195,5 @@ document.getElementById('toggleSidebar').addEventListener('click', function () {
         mainContent.classList.add('expanded');
     }
 });
-
-
 
 

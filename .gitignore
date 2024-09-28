@@ -25,4 +25,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-Frontend\public\uploads
+Frontend/public/uploads/

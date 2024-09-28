@@ -128,8 +128,19 @@ iframe {
 .txt2 {
     font-family: "Poppins", "Roboto", sans-serif;
   font-size: 13px;
-  color: #333333;
+  color: #444444;
   line-height: 1.5;
+  transition: .5s;
+}
+
+.txt2:not(:hover) {
+  scale: 1;
+}
+
+.txt2:hover {
+  color: #006C8F;
+  scale: 1.1;
+  /* font-style: italic; */
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -232,12 +243,13 @@ iframe {
   font-size: 15px;
   color: #000;
   line-height: 1.2;
-
+  margin : 25px;
   display: block;
   width: 100%;
   height: 45px;
   background: transparent;
   padding: 0 5px;
+  margin-left: 0px;
 }
 
 /*---------------------------------------------*/ 
