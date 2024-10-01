@@ -3,11 +3,11 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const app = express();
 const port = 8000;
+let results = [];
+var state = 0;
 
-// Middleware para ler o JSON vindo do ESP32
 app.use(bodyParser.json());
 
-// Conexão com o banco de dados MySQL
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -23,49 +23,63 @@ db.connect((err) => {
   }
 });
 
-// Rota para receber o POST do ESP32
+const checkMissingIds = (dbIds, jsonIds) => {
+  const missingIds = dbIds.filter(dbId => !jsonIds.includes(dbId.ID));
+  missingIds.forEach(missingId => {
+    results.push(`ID ${missingId.ID} não está presente na sala`);
+    db.query(`UPDATE devices SET ATUAL = '0', STATUS = desaparecido, HORARIO = NOW() WHERE ID = ?;`, [missingId.ID]);
+  });
+};
+
 app.post('/api', (req, res) => {
   console.log("Requisição recebida: ", req.body);
   const { ids, lab } = req.body;
 
-  // Verifica se o vetor ids está presente e não está vazio
   if (!Array.isArray(ids) || ids.length === 0) {
-    return res.status(400).json({ error: 'Nenhum beacon detectado' });
+    console.log('Nenhum beacon detectado na sala');
   }
 
-  // Inicializa um array para armazenar as mensagens
-  let results = [];
+  const sqlQuery = 'SELECT ID FROM devices WHERE ORIGEM = ?';
+  db.query(sqlQuery, [lab], (err, dbResult) => {
+    if (err) {
+      console.log('Erro na consulta ao banco de dados');
+    }
 
-  // Função para processar cada ID
-  const checkID = (id, callback) => {
-    const sqlQuery = 'SELECT * FROM devices WHERE SALA = ? AND UUID = ?';
-    db.query(sqlQuery, [lab, id], (err, result) => {
-      if (err) {
-        callback(`Erro na consulta do ID ${id}`);
-      } else if (result.length > 0) {
-        callback(`ID ${id} está presente`);
-      } else {
-        callback(`ID ${id} não está presente`);
-      }
-    });
-  };
+    if (dbResult.length > 0 && Array.isArray(ids)) {
+      console.log(dbResult);
+      checkMissingIds(dbResult, ids);
 
-  // Percorre os ids e verifica cada um deles
-  let processed = 0;  // Contador para garantir que todas as consultas foram feitas
-  ids.forEach(id => {
-    checkID(id, (message) => {
-      results.push(message);
-      processed++;
+      let processed = 0;
 
-      // Quando todas as verificações forem concluídas, enviar a resposta
-      if (processed === ids.length) {
-        console.log({ message: results });
-      }
-    });
+      ids.forEach(id => {
+        const sqlCheckQuery = 'SELECT * FROM devices WHERE ORIGEM = ? AND ID = ?';
+        
+        db.query(sqlCheckQuery, [lab, id], (err, result) => {
+          if (err) {
+            results.push(`Erro na consulta do ID ${id}: ${err}`);
+
+          } else if (result.length > 0) {
+            results.push(`ID ${id} está presente na sala`);
+            db.query(`UPDATE devices SET ATUAL = '?', STATUS = presente, HORARIO = NOW() WHERE ID = ?`, [lab, id]);
+
+          } else {
+            results.push(`ID ${id} não é dessa sala`);
+            db.query(`UPDATE devices SET ATUAL = '?', STATUS = deslocado, HORARIO = NOW() WHERE ID = ?;`, [lab, id]);
+
+          }
+
+          processed++;
+
+          if (processed === ids.length) {
+            console.log(results);
+            results = []; 
+          }
+        });
+      });
+    }
   });
 });
 
-// Função para pegar o IP do servidor
 const os = require('os');
 const interfaces = os.networkInterfaces();
 for (let iface in interfaces) {
@@ -76,7 +90,6 @@ for (let iface in interfaces) {
   });
 };
 
-// Inicializa o servidor na porta especificada
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
