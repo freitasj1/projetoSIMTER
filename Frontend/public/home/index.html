@@ -84,7 +84,7 @@
             
 
             <li class="side-item">
-              <a href="#">
+              <a href="/">
                 <img src="../icons/right-from-bracket-solid.svg" alt="Ícone Font Awesome" width="18" height="18">
                   <span class="item-description">
                       Logout
@@ -104,6 +104,7 @@
       
     </div>
 </nav>
+
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg expanded">
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
@@ -135,7 +136,7 @@
             </li>
             <li class="nav-item px-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0">
-                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
+                <!-- <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i> -->
               </a>
             </li>
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
@@ -208,24 +209,53 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item d-flex align-items-center">
-              <a href="../pages/users.html" id="requestImage" class="nav-link text-body font-weight-bold px-0">
-                <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none"></span>
-              </a>
-            </li>
+           
           </ul>
         </div>
       </div>
     </nav>
+
+    
+      <!-- <img src="../icons/plus-solid.svg" alt="Ícone Font Awesome" width="18" height="18"> -->
+      <button id='addDevice' class="openModalBtnAdd font-weight-bold text-xs">Cadastrar Equipamento</button>
+
+      <div id="myModal" class="modalAdd">
+        <div class="modal-contentAdd">
+            <span class="closeAdd">&times;</span>
+            <h2>Cadastrar Equipamento</h2>
+            <p>Assim que o ID for detectado, ele será inserido na Tabela</p>
+            <form id="addDeviceForm">
+              <label for="nomeEquipamento">Nome do Equipamento:</label>
+              <input type="text" id="nomeEquipamento" name="nomeEquipamento" required><br><br>
+          
+              <label for="IDEquipamento">ID do Equipamento:</label>
+              <input type="text" id="IDEquipamento" name="IDEquipamento" required><br><br>
+          
+              <label for="salaEquipamento">Sala:</label>
+              <input type="text" id="salaEquipamento" name="salaEquipamento" required><br><br>
+          
+              <button type="submit">Cadastrar</button>
+          </form>
+          
+        </div>
+    </div>
+    
+
+
+
+
+      
+    <!-- Botão Editar -->
+    <!-- Modal -->
+
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Tabela de equipamentos</h6>
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3" >
+                <h6 class="text-white text-capitalize ps-3">Tabela de equipamentos - Geral</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -239,11 +269,12 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Equipamento</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sala</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Último responsável</th>
-                      <th class="text-secondary opacity-7"></th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sala de Origem</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sala Atual</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Último responsável</th>
+                        <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <!-- Parte da tabela -->
@@ -252,7 +283,7 @@
 
                   
 
-<tbody id="equipamentosTable">
+<tbody id="equipamentosTable3">
   <tr>
       <td>
           <div class="d-flex px-2 py-1">
@@ -323,23 +354,32 @@
           </div>
         </div>
       </div>
+    <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Tabela de Funcionários</h6>
+                <h6 class="text-white text-capitalize ps-3">Tabela de equipamentos - sala 65</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-0">
+                <td class="align-middle">
+                  <!-- <button class="openModalBtn font-weight-bold text-xs">Editar</button> Botão Editar -->
+                  <!-- Modal -->
+                  
+              </td>
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">nome</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Função</th>
-                      
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Equipamento</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sala de Origem</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sala Atual</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Último responsável</th>
+                        <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <!-- Parte da tabela -->
@@ -348,28 +388,39 @@
 
                   
 
-<tbody id="equipamentosTable">
+<tbody id="equipamentosTable2">
   <tr>
       <td>
           <div class="d-flex px-2 py-1">
               <div class="d-flex flex-column justify-content-center">
-                  <!-- <h6 class="mb-0 text-sm">Network Analyzer</h6> Nome do Equipamento -->
+                  <h6 class="mb-0 text-sm">Network Analyzer</h6> <!-- Nome do Equipamento -->
               </div>
           </div>
       </td>
       <td>
-          <!-- <p class="text-xs font-weight-bold mb-0">012345</p> ID -->
+          <p class="text-xs font-weight-bold mb-0">012345</p> <!-- ID -->
       </td>
       <td class="align-middle text-center text-sm">
-          <!-- <span class="badge badge-sm bg-gradient-success">Online</span> Status -->
+          <span class="badge badge-sm bg-gradient-success">Online</span> <!-- Status -->
       </td>
       <td class="align-middle text-center">
-          <!-- <span class="text-secondary text-xs font-weight-bold">83</span> Sala -->
+          <span class="text-secondary text-xs font-weight-bold">83</span> <!-- Sala -->
       </td>
       <td class="align-middle text-center">
-          <!-- <h6 class="mb-0 text-sm">Mateus Yuji</h6> Último Responsável -->
+          <h6 class="mb-0 text-sm">Mateus Yuji</h6> <!-- Último Responsável -->
       </td>
-      
+      <td class="align-middle">
+          <button class="openModalBtn font-weight-bold text-xs">Editar</button> <!-- Botão Editar -->
+          <!-- Modal -->
+          <div id="modal" class="modal">
+              <div class="modal-content">
+                  <span id="closeModalBtn" class="close">&times;</span>
+                  <h2>Editar Equipamento</h2>
+                  
+                    
+              </div>
+          </div>
+      </td>
   </tr>
   <!-- Outras linhas seguem a mesma estrutura -->
 </tbody>
@@ -408,6 +459,111 @@
           </div>
         </div>
       </div>
+      <div class="container-fluid py-4">
+        <div class="row">
+          <div class="col-12">
+            <div class="card my-4">
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                  <h6 class="text-white text-capitalize ps-3">Tabela de equipamentos - sala 82</h6>
+                </div>
+              </div>
+              <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                  <td class="align-middle">
+                    <!-- <button class="openModalBtn font-weight-bold text-xs">Editar</button> Botão Editar -->
+                    <!-- Modal -->
+                    
+                </td>
+                  <table class="table align-items-center mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Equipamento</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sala de Origem</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sala Atual</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Último responsável</th>
+                        <th class="text-secondary opacity-7"></th>
+                      </tr>
+                    </thead>
+                    <!-- Parte da tabela -->
+                    
+  
+  
+                    
+  
+  <tbody id="equipamentosTable">
+    <tr>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">Network Analyzer</h6> <!-- Nome do Equipamento -->
+                </div>
+            </div>
+        </td>
+        <td>
+            <p class="text-xs font-weight-bold mb-0">012345</p> <!-- ID -->
+        </td>
+        <td class="align-middle text-center text-sm">
+            <span class="badge badge-sm bg-gradient-success">Online</span> <!-- Status -->
+        </td>
+        <td class="align-middle text-center">
+            <span class="text-secondary text-xs font-weight-bold">83</span> <!-- Sala -->
+        </td>
+        <td class="align-middle text-center">
+            <h6 class="mb-0 text-sm">Mateus Yuji</h6> <!-- Último Responsável -->
+        </td>
+        <td class="align-middle">
+            <button class="openModalBtn font-weight-bold text-xs">Editar</button> <!-- Botão Editar -->
+            <!-- Modal -->
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span id="closeModalBtn" class="close">&times;</span>
+                    <h2>Editar Equipamento</h2>
+                    
+                      
+                </div>
+            </div>
+        </td>
+    </tr>
+    <!-- Outras linhas seguem a mesma estrutura -->
+  </tbody>
+  
+  <!-- <div id="newEquipModal" class="modal">
+    <div class="modal-content">
+      <span id="closeNewEquipModalBtn" class="close">&times;</span>
+      <h2>Cadastrar Novo Equipamento</h2>
+      
+      <form id="newEquipForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="equipNome">Nome do Equipamento</label>
+            <input type="text" id="equipNome" name="equipNome" class="input-modal" placeholder="Digite o nome" required>
+          </div>
+          <div class="form-group">
+            <label for="equipID">ID</label>
+            <input type="text" id="equipID" name="equipID" class="input-modal" placeholder="Digite o ID" required>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="equipSala">Sala</label>
+            <input type="text" id="equipSala" name="equipSala" class="input-modal" placeholder="Digite a sala" required>
+          </div>
+        </div>
+        
+        <button type="submit" class="submit-btn">Cadastrar Equipamento</button>
+      </form>
+    </div> -->
+                  
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       <footer class="footer py-4  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">

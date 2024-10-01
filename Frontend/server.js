@@ -36,8 +36,10 @@ app.use(session({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static(path.join(__dirname, 'pages')));
+
 
 // middleware de autenticação
 function authMiddleware(req, res, next) {
@@ -144,12 +146,46 @@ app.post('/register', upload.single('photo'), (req, res) => {
     });
 });
 
+app.get('/api/equipamentos2', (req, res) => {
+    console.log('65');
+    connection.query('SELECT nome, ID, responsavel, ORIGEM, STATUS, ATUAL FROM devices WHERE ORIGEM = 65', (error, results) => {
+        if (error) throw error;
+        res.json(results);
+        console.log('Equipamentos solicitados - sala 65'); 
+    });
+})
+
+app.get('/api/equipamentos3', (req, res) => {
+    console.log('todos');
+    connection.query('SELECT nome, ID, responsavel, ORIGEM, STATUS, ATUAL FROM devices', (error, results) => {
+        if (error) throw error;
+        res.json(results);
+        console.log('Equipamentos solicitados - geral'); 
+    });
+})
+
+app.post('/addDevice', (req, res) => {
+    const { nome, ID, sala } = req.body;
+    const responsavel = null; // Definindo como null
+    const status = null; // Ou outro valor padrão
+
+    connection.query('INSERT INTO devices (nome, ID, sala, responsavel, status) VALUES (?, ?, ?, ?, ?)', 
+        [nome, ID, sala, responsavel, status], 
+        (error, results) => {
+            if (error) {
+                console.error('Erro ao salvar no banco de dados:', error);
+                return res.status(500).json({ success: false, message: 'Erro ao salvar no banco de dados' });
+            }
+            return res.status(200).json({ success: true, message: 'Equipamento cadastrado com sucesso!' });
+        }
+    );
+});
 
 
 
 app.get('/api/user/:id', (req, res) => {
     const userId = req.params.id; 
-    req.session.id = userId
+    req.session.id = userId;
     console.log('ID recebido: ', userId);
     
     connection.query('SELECT nivel FROM employees WHERE id = ?', [userId], (error, results) => {
@@ -158,11 +194,34 @@ app.get('/api/user/:id', (req, res) => {
             return res.status(500).json({ message: 'Erro ao acessar o banco de dados', error: true });
         }
 
-        
         if (results.length > 0 && results[0].nivel >= 2) {
             res.json({ access: true });
             console.log('acesso permitido');
-            req.session.id = userId
+            req.session.id = userId;
+            
+            // Buscar o nome do usuário
+            connection.query('SELECT nome FROM employees WHERE id = ?', [userId], (nameError, nameResults) => {
+                if (nameError) {
+                    console.log('Erro ao buscar o nome do usuário:', nameError);
+                    return res.status(500).json({ message: 'Erro ao buscar o nome do usuário', error: true });
+                }
+
+                if (nameResults.length > 0) {
+                    const userName = nameResults[0].nome;
+
+                    // Atualiza o RESPONSAVEL dos devices na sala 65
+                    connection.query('UPDATE devices SET RESPONSAVEL = ? WHERE ORIGEM = 65', [userName], (updateError, updateResults) => {
+                        if (updateError) {
+                            console.log('Erro ao atualizar os dispositivos:', updateError);
+                            return res.status(500).json({ message: 'Erro ao atualizar os dispositivos', error: true });
+                        }
+
+                        console.log(`Dispositivos atualizados: ${updateResults.affectedRows}`);
+                    });
+                } else {
+                    console.log('Usuário não encontrado');
+                }
+            });
         } else {
             res.json({ access: false });
             console.log('acesso negado');
@@ -179,7 +238,7 @@ app.post('/api', (req, res) => {
       console.log("Nenhum beacon detectado");
     }
   
-    const sqlQuery = 'SELECT * FROM devices WHERE sala = ? AND UUID IN (?)';
+    const sqlQuery = 'SELECT * FROM devices WHERE origem = ? AND UUID IN (?)';
     db.query(sqlQuery, [lab, ids], (err, result) => {
       if (err) {
         console.log("Erro na consulta ao banco de dados", err);
@@ -192,16 +251,34 @@ app.post('/api', (req, res) => {
       }
     });
   });
+
+
   
 
 app.get('/api/equipamentos', (req, res) => {
-    console.log('rota api funcionando');
-    connection.query('SELECT nome, ID, SALA, responsavel, status FROM devices', (error, results) => {
+    console.log('82');
+    connection.query('SELECT nome, ID, responsavel, ORIGEM, STATUS, ATUAL FROM devices WHERE ORIGEM = 82', (error, results) => {
         if (error) throw error;
-        res.json(results);
-        console.log('Equipamentos solicitados'); 
+        if (results.length === 0) {
+            return res.json(null);  // Retorna null quando o resultado é vazio
+        } else {
+            return res.json(results);  // Retorna os dados quando a consulta tem resultados
+            console.log('Equipamentos solicitados - sala 82'); 
+        }
     });
-    
+})
+
+
+
+app.get('/usersTable', (req,res) => {
+    console.log('tabela de users solicitada');
+    connection.query('SELECT * FROM employees', (error,results) => {
+        if(error) throw error;
+        res.json(results);
+    })
+
+
+
     
 });
 app.get('/api/users', (req, res) => {
@@ -251,7 +328,7 @@ app.get('/api/users', (req, res) => {
 
 app.get('/pages', authMiddleware, (req, res) => {
     console.log('/pages aceito')
-    res.sendFile(path.join(__dirname, 'pages', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'home','index.html'));
 });
 
 // Outras rotas protegidas
@@ -266,6 +343,8 @@ app.get('/edit', authMiddleware, (req, res) => {
 app.get('/users', authMiddleware, (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'users.html'));
 });
+
+
 
 
 app.post('/api/save', async (req, res) => {
@@ -290,7 +369,46 @@ app.post('/api/save', async (req, res) => {
     }
 });
 
-
+app.post('/api', (req, res) => {
+    const { ids, lab } = req.body;
+    console.log("Requisição recebida: ", req.body);
+  
+    // Verifica se o vetor ids está presente e não está vazio
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ error: 'Nenhum beacon detectado' });
+    }
+  
+    
+    let results = [];
+  
+   
+    const checkID = (id, callback) => {
+      const sqlQuery = 'SELECT * FROM devices WHERE SALA = ? AND ID = ?';
+      db.query(sqlQuery, [lab, id], (err, result) => {
+        if (err) {
+          callback(`Erro na consulta do ID ${id}`);
+        } else if (result.length > 0) {
+          callback(`ID ${id} está presente`);
+        } else {
+          callback(`ID ${id} não está presente`);
+        }
+      });
+    };
+  
+    // Percorre os ids e verifica cada um deles
+    let processed = 0;  // Contador para garantir que todas as consultas foram feitas
+    ids.forEach(id => {
+      checkID(id, (message) => {
+        results.push(message);
+        processed++;
+  
+        // Quando todas as verificações forem concluídas, enviar a resposta
+        if (processed === ids.length) {
+          console.log({ message: results });
+        }
+      });
+    });
+  });
 
 
 app.listen(3000, () => {

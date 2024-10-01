@@ -65,29 +65,26 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData(registerForm); // Pega todos os inputs do formulário automaticamente
         const imageData = capturedPhoto.src; // Imagem capturada em base64
     
-        // Verifique se a imagem foi capturada
+        // Se a imagem foi capturada, anexa ao formData
         if (imageData && imageData.startsWith('data:image/png;base64,')) {
-            // Anexar a imagem capturada ao formData
             formData.append('photo', imageData); // Anexa a imagem como string base64
+        }
     
-            try {
-                const response = await fetch('/register', {
-                    method: 'POST',
-                    body: formData,
-                });
-    
-                if (response.redirected) {
-                    // Redireciona para a página de sucesso se o redirecionamento ocorrer
-                    window.location.href = response.url; // Redireciona para a URL da resposta
-                } else {
-                    alert('Erro ao cadastrar.');
-                    console.error('Erro:', await response.json());
-                }
-            } catch (error) {
-                console.error('Erro:', error);
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.redirected) {
+                // Redireciona para a página de sucesso se o redirecionamento ocorrer
+                window.location.href = response.url; // Redireciona para a URL da resposta
+            } else {
+                alert('Erro ao cadastrar.');
+                console.error('Erro:', await response.json());
             }
-        } else {
-            alert('Por favor, tire uma foto antes de enviar.');
+        } catch (error) {
+            console.error('Erro:', error);
         }
     });
 });

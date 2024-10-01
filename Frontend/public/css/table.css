@@ -24,7 +24,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #ffffff;
+    background-color: #4F46E5;
     height: 100vh;
     border-radius: 0px 18px 18px 0px;
     position: fixed;
@@ -122,22 +122,23 @@ main {
 }
 
 #open_btn {
-    position: absolute;
-    top: 30px;
-    right: -10px;
-    background-color: #4f46e5;
-    color: #e3e9f7;
-    border-radius: 19%;
-    width: 15px;
-    border: none;
-    cursor: pointer;
-    /* height: 15px; */
-    /* margin-left: 20px; */
-    padding-left: 6px;
+  position: absolute;
+  top: 85px;
+  right: 20px;
+  background-color: transparent;
+  color: #e3e9f7;
+  border-radius: 19%;
+  width: 15px;
+  border: none;
+  cursor: pointer;
+  /* height: 15px; */
+  /* margin-left: 20px; */
+  padding-left: 6px;
 }
 
 #open_btn_icon {
     transition: transform .3s ease;
+    color: #fff;
 }
 
 .open-sidebar #open_btn_icon {
@@ -430,4 +431,116 @@ button {
   }
 
 
+  @media screen and (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      position: relative;
+      margin-bottom: 20px;
+    }
   
+    .main-content {
+      margin-left: 0;
+    }
+  
+    /* Ajuste para o conteúdo da tabela */
+    .table-responsive {
+      overflow-x: auto;
+    }
+  
+    /* Ajuste para o menu lateral */
+    #sidebar {
+      width: 100%;
+      height: auto;
+    }
+  
+    /* Estilo dos botões */
+    .openModalBtn {
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+  }
+  
+  /* Ajustes para dispositivos menores que 480px (smartphones) */
+  @media screen and (max-width: 480px) {
+    .sidebar {
+      display: none; /* Esconde a barra lateral em telas pequenas */
+    }
+  
+    .main-content {
+      margin-left: 0;
+      padding: 10px;
+    }
+  
+    /* Ajustes para as células da tabela */
+    td, th {
+      font-size: 12px;
+    }
+  
+    .table th, .table td {
+      padding: 10px;
+    }
+  
+    #user_avatar {
+      width: 40px;
+      height: 40px;
+    }
+  }
+ /* Esconde os elementos com a classe 'hidden' */
+
+#addDevice {
+  margin-left: 45%;
+  margin-right: 45%;
+  background-image: linear-gradient(195deg, #006C8F 0%, #4F46E5 100%);
+}
+
+
+.modalAdd {
+  display: none; /* Oculto por padrão */
+  position: fixed;
+  z-index: 11;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-contentAdd {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  border-radius: 8px;
+
+}
+
+.modal-content input {
+  border-radius: 20px;
+  border: 1px solid #006C8F;
+}
+
+.closeAdd {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.closeAdd:hover,
+.closeAdd:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.openModalBtnAdd {
+  padding: 10px 20px;
+  background-color: #006C8F;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
