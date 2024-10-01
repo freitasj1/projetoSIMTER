@@ -12,7 +12,8 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'simter',
-  database: 'simter'
+  database: 'simter',
+  connectionTimeout: 10000
 });
 
 db.connect((err) => {
@@ -27,7 +28,7 @@ const checkMissingIds = (dbIds, jsonIds) => {
   const missingIds = dbIds.filter(dbId => !jsonIds.includes(dbId.ID));
   missingIds.forEach(missingId => {
     results.push(`ID ${missingId.ID} não está presente na sala`);
-    db.query(`UPDATE devices SET ATUAL = '0', STATUS = desaparecido, HORARIO = NOW() WHERE ID = ?;`, [missingId.ID]);
+    db.query(`UPDATE devices SET ATUAL = '0', STATUS = 'desaparecido', HORARIO = NOW() WHERE ID = ?;`, [missingId.ID]);
   });
 };
 
@@ -60,11 +61,11 @@ app.post('/api', (req, res) => {
 
           } else if (result.length > 0) {
             results.push(`ID ${id} está presente na sala`);
-            db.query(`UPDATE devices SET ATUAL = '?', STATUS = presente, HORARIO = NOW() WHERE ID = ?`, [lab, id]);
+            db.query(`UPDATE devices SET ATUAL = ?, STATUS = 'presente', HORARIO = NOW() WHERE ID = ?`, [lab, id]);
 
           } else {
             results.push(`ID ${id} não é dessa sala`);
-            db.query(`UPDATE devices SET ATUAL = '?', STATUS = deslocado, HORARIO = NOW() WHERE ID = ?;`, [lab, id]);
+            db.query(`UPDATE devices SET ATUAL = ?, STATUS = 'deslocado', HORARIO = NOW() WHERE ID = ?;`, [lab, id]);
 
           }
 
