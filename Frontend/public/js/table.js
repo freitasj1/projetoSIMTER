@@ -84,8 +84,8 @@ async function fetchEquipamentos() {
                 <td>
                     <p class="text-xs font-weight-bold mb-0">${equip.ID}</p>
                 </td>
-                <td class="align-middle text-center text-sm">
-                    <span class="badge badge-sm bg-gradient-${equip.status === 'Online' ? 'success' : 'danger'}">${equip.status}</span>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">${equip.STATUS}</span>
                 </td>
                 <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${equip.ORIGEM}</span>
@@ -182,12 +182,12 @@ async function fetchEquipamentos3() {
             return;
         }
         tableBody.innerHTML = '';  // Limpa o conteúdo anterior
-
+        
         equipamentos.forEach((equip, index) => {
             // Cria uma nova linha <tr>
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>
+               <td>
                     <div class="d-flex px-2 py-1">
                         <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">${equip.nome}</h6>
@@ -197,8 +197,8 @@ async function fetchEquipamentos3() {
                 <td>
                     <p class="text-xs font-weight-bold mb-0">${equip.ID}</p>
                 </td>
-                <td class="align-middle text-center text-sm">
-                    <span class="badge badge-sm bg-gradient-${equip.status === 'Online' ? 'success' : 'danger'}">${equip.status}</span>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">${equip.STATUS}</span>
                 </td>
                 <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${equip.ORIGEM}</span>
@@ -289,7 +289,7 @@ async function fetchEquipamentos2() {
             throw new Error('Erro na requisição: ' + response.status);
         }
         const equipamentos = await response.json();
-        // console.log('Dados recebidos do servidor:', equipamentos);
+        console.log('Dados recebidos do servidor:', equipamentos);
 
 
         // Seleciona o elemento do tbody onde a tabela será preenchida
@@ -299,7 +299,7 @@ async function fetchEquipamentos2() {
             return;
         }
         tableBody.innerHTML = '';  // Limpa o conteúdo anterior
-
+        
         equipamentos.forEach((equip, index) => {
             // Cria uma nova linha <tr>
             const row = document.createElement('tr');
@@ -314,8 +314,8 @@ async function fetchEquipamentos2() {
                 <td>
                     <p class="text-xs font-weight-bold mb-0">${equip.ID}</p>
                 </td>
-                <td class="align-middle text-center text-sm">
-                    <span class="badge badge-sm bg-gradient-${equip.STATUS === 'Online' ? 'success' : 'danger'}">${equip.STATUS}</span>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">${equip.STATUS}</span>
                 </td>
                 <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">${equip.ORIGEM}</span>
@@ -442,6 +442,60 @@ window.addEventListener('click', function(event) {
     }
 });
     
+document.getElementById('export').addEventListener('click', async function() {
+    // Lógica para exportar os dados em CSV
+    console.log('Exportar CSV');
+
+    // Cabeçalhos da tabela
+    const headers = ['Nome', 'ID', 'STATUS', 'Sala de Origem', 'Sala Atual', 'Responsável'];
+    let csvContent = headers.join(',') + '\n'; // Adiciona os cabeçalhos ao CSV
+
+    try {
+        // Faz a requisição para obter os dados da tabela equipamentos3
+        const response = await fetch('/api/equipamentos3');
+        console.log('Resposta do fetch:', response);
+        if (!response.ok) {
+            throw new Error('Erro na requisição: ' + response.status);
+        }
+
+        const equipamentos = await response.json(); // Aguarda a resposta em JSON
+        console.log('Dados recebidos do servidor:', equipamentos);
+
+        // Loop pelos dados dos equipamentos
+        equipamentos.forEach((equip) => {
+            const rowData = [
+                equip.nome,
+                equip.ID,
+                equip.STATUS,
+                equip.ORIGEM,
+                equip.ATUAL,
+                equip.responsavel
+            ];
+            csvContent += rowData.join(',') + '\n'; // Adiciona a linha de dados ao CSV
+        });
+
+        // Cria um Blob para o conteúdo CSV
+        let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(blob);
+
+        // Cria um link invisível para fazer o download
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = 'equipamentos_tabela.csv';  // Define o nome do arquivo CSV
+        a.click();  // Aciona o download
+    } catch (error) {
+        console.error('Erro ao exportar CSV:', error);
+    }
+});
+
+document.getElementById('exportEmail').addEventListener('click', function() {
+    // Lógica para exportar CSV e enviar por email
+    console.log('Exportar CSV e Enviar por Email');
+    alert('Função de exportação e envio por email ainda não implementada.');
+});
+
+
+
     
       // Faz o primeiro carregamento dos dados
     setInterval(fetchEquipamentos, 7000); 
@@ -500,5 +554,6 @@ document.getElementById('toggleSidebar').addEventListener('click', function () {
         mainContent.classList.add('expanded');
     }
 });
+
 
 
