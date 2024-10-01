@@ -488,11 +488,57 @@ document.getElementById('export').addEventListener('click', async function() {
     }
 });
 
-document.getElementById('exportEmail').addEventListener('click', function() {
+document.getElementById('exportEmail').addEventListener('click', async function() {
     // Lógica para exportar CSV e enviar por email
     console.log('Exportar CSV e Enviar por Email');
-    alert('Função de exportação e envio por email ainda não implementada.');
+
+    // Cabeçalhos da tabela
+    const headers = ['Nome', 'ID', 'STATUS', 'Sala de Origem', 'Sala Atual', 'Responsável'];
+    let csvContent = headers.join(',') + '\n'; // Adiciona os cabeçalhos ao CSV
+
+    try {
+        // Faz a requisição para obter os dados da tabela equipamentos3
+        const response = await fetch('/api/equipamentos3');
+        if (!response.ok) {
+            throw new Error('Erro na requisição: ' + response.status);
+        }
+
+        const equipamentos = await response.json(); // Aguarda a resposta em JSON
+
+        // Loop pelos dados dos equipamentos
+        equipamentos.forEach((equip) => {
+            const rowData = [
+                equip.nome,
+                equip.ID,
+                equip.STATUS,
+                equip.ORIGEM,
+                equip.ATUAL,
+                equip.responsavel
+            ];
+            csvContent += rowData.join(',') + '\n'; // Adiciona a linha de dados ao CSV
+        });
+
+        // Envia o CSV ao backend para ser enviado por email
+        const emailResponse = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ csvContent })
+        });
+
+        if (!emailResponse.ok) {
+            throw new Error('Erro ao enviar o email: ' + emailResponse.status);
+        }
+
+        console.log('Email enviado com sucesso.');
+        alert('Email enviado com sucesso.');
+    } catch (error) {
+        console.error('Erro ao exportar e enviar por email:', error);
+        alert('Erro ao enviar o email.');
+    }
 });
+
 
 
 

@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 const saltRounds = 10;
 const fs = require('fs');
 const multer = require('multer');
@@ -409,6 +410,45 @@ app.post('/api', (req, res) => {
       });
     });
   });
+
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail', // ou outro serviço de email que você utilize
+    auth: {
+        user: 'sistemasimter@gmail.com', // Coloque seu email aqui
+        pass: 'projetoSimter'           // Coloque sua senha aqui (melhor usar uma variável de ambiente)
+    }
+});
+
+app.post('/api/send-email', (req, res) => {
+    const { csvContent } = req.body;
+
+    // Configurações do email
+    const mailOptions = {
+        from: 'sistemasimter@gmail.com',  // Email de origem
+        to: req.session.email, // Email de destino
+        subject: 'CSV da Tabela de Equipamentos',
+        text: 'Segue em anexo o CSV gerado',
+        attachments: [
+            {
+                filename: 'equipamentos_tabela.csv',
+                content: csvContent,
+                contentType: 'text/csv'
+            }
+        ]
+    };
+
+    // Enviando o email
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log('Erro ao enviar email:', error);
+            res.status(500).send('Erro ao enviar email');
+        } else {
+            console.log('Email enviado:', info.response);
+            res.status(200).send('Email enviado com sucesso');
+        }
+    });
+});
 
 
 app.listen(3000, () => {
