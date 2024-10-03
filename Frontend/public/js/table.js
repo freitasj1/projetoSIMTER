@@ -97,7 +97,7 @@ async function fetchEquipamentos() {
                     <h6 class="mb-0 text-sm">${equip.responsavel}</h6>
                 </td>
                 <td class="align-middle">
-                    <button class="openModalBtn font-weight-bold text-xs" data-modal="modal-${index}">Editar</button>
+                    <button class="openModalBtn font-weight-bold text-xs" style = 'display:none' data-modal="modal-${index}">Editar</button>
                     <div id="modal-${index}" class="modal">
                         <div class="modal-content">
                             <span class="close" data-modal="modal-${index}">&times;</span>
@@ -160,12 +160,12 @@ async function fetchEquipamentos() {
 }
 
 async function fetchEquipamentos3() {
-    if (isFetching) return;  
+    if (isFetching) return;
 
     isFetching = true;
     try {
         // Código de fetch aqui
-        console.log('try fetchEquip')
+        console.log('try fetchEquip');
         const response = await fetch('/api/equipamentos3');
         console.log('Resposta do fetch:', response);
         if (!response.ok) {
@@ -174,17 +174,14 @@ async function fetchEquipamentos3() {
         const equipamentos = await response.json();
         console.log('Dados recebidos do servidor:', equipamentos);
 
-
-        // Seleciona o elemento do tbody onde a tabela será preenchida
         const tableBody = document.getElementById('equipamentosTable3');
         if (!tableBody) {
             console.error('Elemento #equipamentosTable não encontrado!');
             return;
         }
         tableBody.innerHTML = '';  // Limpa o conteúdo anterior
-        
+
         equipamentos.forEach((equip, index) => {
-            // Cria uma nova linha <tr>
             const row = document.createElement('tr');
             row.innerHTML = `
                <td>
@@ -248,10 +245,8 @@ async function fetchEquipamentos3() {
                     </div>
                 </td>
             `;
-            
-            // Adiciona a linha à tabela
             tableBody.appendChild(row);
-        
+
             // Event listeners para abrir/fechar o modal
             row.querySelector(`button[data-modal="modal-${index}"]`).addEventListener('click', () => {
                 document.getElementById(`modal-${index}`).style.display = 'flex';
@@ -259,19 +254,77 @@ async function fetchEquipamentos3() {
             row.querySelector(`span[data-modal="modal-${index}"]`).addEventListener('click', () => {
                 document.getElementById(`modal-${index}`).style.display = 'none';
             });
+            verificarStatusEAdicionarNotificacao(equip.STATUS, equip.ID);
+
+            // Captura e trata a submissão do formulário do modal
+            const form = document.getElementById(`modalForm-${index}`);
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();  // Previne o comportamento padrão de recarregar a página
+                event.stopPropagation(); // Evita propagação do evento
+
+                // Captura os valores preenchidos no modal
+                const id = document.getElementById(`id-${index}`).value;
+                const nome = document.getElementById(`equipamento-${index}`).value;
+                const status = document.getElementById(`status-${index}`).value;
+                const origem = document.getElementById(`sala-${index}`).value;
+                const responsavel = document.getElementById(`responsavel-${index}`).value;
+
+                try {
+                    // Faz a requisição PUT para o backend
+                    const response = await fetch(`/api/equipamentos/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ nome, status, origem, responsavel })
+                    });
+
+                    if (response.ok) {
+                        alert('Equipamento atualizado com sucesso');
+                        document.getElementById(`modal-${index}`).style.display = 'none';  // Fecha o modal
+                        await fetchEquipamentos3();  // Recarrega os dados da tabela
+                    } else {
+                        throw new Error('Erro ao atualizar o equipamento');
+                    }
+                } catch (error) {
+                    console.error('Erro ao enviar dados:', error);
+                    alert('Falha ao atualizar o equipamento');
+                }
+            });
         });
-            
+
     } catch (error) {
         console.error('Erro ao buscar os equipamentos:', error);
     } finally {
         isFetching = false;
         console.log('fetch = false');
     }
-
-
-
 }
 
+
+// Função para verificar status e adicionar notificações
+function verificarStatusEAdicionarNotificacao(status, ID) {
+    const notificationList = document.querySelector('.dropdown-menu');
+
+    if (status === 'desaparecido' || status === 'deslocado') {
+        const newNotification = document.createElement('li');
+        newNotification.classList.add('mb-2');
+        newNotification.innerHTML = `
+            <a class="dropdown-item border-radius-md" href="javascript:;">
+                <div class="d-flex py-1">
+                    <div class="my-auto">
+                        <h6 class="text-sm font-weight-normal mb-1">
+                            <span class="font-weight-bold">Atenção!</span> Equipamento ${ID} ${status}
+                        </h6>
+                        <i class="fa fa-clock me-1"></i>
+                        Agora mesmo
+                    </div>
+                </div>
+            </a>
+        `;
+        notificationList.prepend(newNotification); // Adiciona no topo da lista
+    }
+}
 
 
 
@@ -327,7 +380,7 @@ async function fetchEquipamentos2() {
                     <h6 class="mb-0 text-sm">${equip.responsavel}</h6>
                 </td>
                 <td class="align-middle">
-                    <button class="openModalBtn font-weight-bold text-xs" data-modal="modal-${index}">Editar</button>
+                    <button class="openModalBtn font-weight-bold text-xs" style = 'display:none' data-modal="modal-${index}">Editar</button>
                     <div id="modal-${index}" class="modal">
                         <div class="modal-content">
                             <span class="close" data-modal="modal-${index}">&times;</span>
@@ -413,10 +466,12 @@ async function fetchUserData() {
 // console.log('saiu do fetch');
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página carregada, iniciando fetch de equipamentos');
+    verificarStatus();
     fetchEquipamentos3();
-    fetchEquipamentos2();
     fetchEquipamentos();
+    fetchEquipamentos2();
     fetchUserData();
+
 
     const modalAdd = document.getElementById('myModal');  // Corrigido o ID
 const openModalBtnAdd = document.getElementById('addDevice');  // Corrigido o ID
@@ -448,7 +503,7 @@ document.getElementById('export').addEventListener('click', async function() {
 
     // Cabeçalhos da tabela
     const headers = ['Nome', 'ID', 'STATUS', 'Sala de Origem', 'Sala Atual', 'Responsável'];
-    let csvContent = headers.join(',') + '\n'; // Adiciona os cabeçalhos ao CSV
+    let csvContent = '\uFEFF' + headers.join(',') + '\n'; // Adiciona o BOM e os cabeçalhos ao CSV
 
     try {
         // Faz a requisição para obter os dados da tabela equipamentos3
@@ -494,7 +549,7 @@ document.getElementById('exportEmail').addEventListener('click', async function(
 
     // Cabeçalhos da tabela
     const headers = ['Nome', 'ID', 'STATUS', 'Sala de Origem', 'Sala Atual', 'Responsável'];
-    let csvContent = headers.join(',') + '\n'; // Adiciona os cabeçalhos ao CSV
+    let csvContent = '\uFEFF' + headers.join(',') + '\n'; // Adiciona o BOM e os cabeçalhos ao CSV
 
     try {
         // Faz a requisição para obter os dados da tabela equipamentos3
@@ -524,7 +579,7 @@ document.getElementById('exportEmail').addEventListener('click', async function(
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ csvContent })
+            body: JSON.stringify({ csvContent }) // Envia o conteúdo do CSV
         });
 
         if (!emailResponse.ok) {
@@ -539,14 +594,34 @@ document.getElementById('exportEmail').addEventListener('click', async function(
     }
 });
 
+const notificationDropdown = document.getElementById('dropdownMenuButton');
+    const notificationList = document.querySelector('.dropdown-menu');
 
+    
+    function verificarStatus() {
+        const rows = document.querySelectorAll('tr'); // Seleciona todas as linhas da tabela
+        
+        rows.forEach(row => {
+          const statusCell = row.querySelector('td:nth-child(3) span'); // Seleciona a célula com o status
+          if (statusCell) {
+            const statusText = statusCell.textContent.trim().toLowerCase(); // Pega o texto do status
+            if (statusText === 'desaparecido' || statusText === 'deslocado') {
+              row.classList.add('red-background'); // Adiciona a classe para o fundo vermelho
+            }
+          }
+        });
+      }
+    
+
+      
 
 
     
       // Faz o primeiro carregamento dos dados
-    setInterval(fetchEquipamentos, 7000); 
-    setInterval(fetchEquipamentos2, 6000); 
+    setInterval(fetchEquipamentos, 5000); 
+    setInterval(fetchEquipamentos2, 5000); 
     setInterval(fetchEquipamentos3, 5000); 
+    setInterval(verificarStatus ,5000);
      // Atualiza a cada 10 segundos
 });
 
@@ -603,3 +678,4 @@ document.getElementById('toggleSidebar').addEventListener('click', function () {
 
 
 
+// Função para aplicar o estilo

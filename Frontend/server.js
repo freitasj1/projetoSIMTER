@@ -6,10 +6,17 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const saltRounds = 10;
 const fs = require('fs');
+const bodyParser = require('body-parser');
 const multer = require('multer');
 const uploadDir = path.join(__dirname, 'uploads');
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
+
+port = 3000;
+
+let results = [];
+var state = 0;
+
 
 
 if (!fs.existsSync(uploadDir)) {
@@ -35,6 +42,7 @@ app.use(session({
     cookie: { secure: false }
 }));
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -95,7 +103,7 @@ app.post('/register', upload.single('photo'), (req, res) => {
     const ID = null; 
     const nivel = 1;
 
-    console.log('Dados recebidos:', { nome, email, password, funcao });
+    // console.log('Dados recebidos:', { nome, email, password, funcao });
 
     
     if (!nome || !email || !password) {
@@ -113,14 +121,14 @@ app.post('/register', upload.single('photo'), (req, res) => {
         const fullPath = path.join(__dirname, 'public', photoPath); // Caminho completo
         // Salva o arquivo no sistema de arquivos
         fs.writeFileSync(fullPath, req.file.buffer);
-        console.log('Foto salva:', fullPath);
+        // console.log('Foto salva:', fullPath);
     } else if (req.body.photo) {
         const base64Data = req.body.photo.replace(/^data:image\/png;base64,/, "");
         const fileName = `photo_${Date.now()}.png`; // Cria um nome único
         photoPath = path.join('uploads', fileName); // Caminho relativo
         const fullPath = path.join(__dirname, 'public', photoPath); // Caminho completo
         fs.writeFileSync(fullPath, base64Data, 'base64');
-        console.log('Foto salva da base64:', fullPath);
+        // console.log('Foto salva da base64:', fullPath);
     } else {
         console.log('Nenhuma foto enviada. O restante dos dados será salvo.');
     }
@@ -148,29 +156,49 @@ app.post('/register', upload.single('photo'), (req, res) => {
 });
 
 app.get('/api/equipamentos2', (req, res) => {
-    console.log('65');
+    // console.log('65');
     connection.query('SELECT nome, ID, responsavel, ORIGEM, STATUS, ATUAL FROM devices WHERE ORIGEM = 65', (error, results) => {
         if (error) throw error;
         res.json(results);
-        console.log('Equipamentos solicitados - sala 65'); 
+        // console.log('Equipamentos solicitados - sala 65'); 
     });
 })
 
 app.get('/api/equipamentos3', (req, res) => {
-    console.log('todos');
+    // console.log('todos');
     connection.query('SELECT nome, ID, responsavel, ORIGEM, STATUS, ATUAL FROM devices', (error, results) => {
         if (error) throw error;
         res.json(results);
-        console.log('Equipamentos solicitados - geral'); 
+        // console.log('Equipamentos solicitados - geral'); 
     });
 })
 
+app.put('/api/equipamentos/:id', (req, res) => {
+    const id = req.params.id;
+    const { nome, status, origem, responsavel } = req.body;
+
+    const sql = 'UPDATE devices SET nome = ?, STATUS = ?, ORIGEM = ?, responsavel = ? WHERE ID = ?';
+    const values = [nome, status, origem, responsavel, id];
+
+    connection.query(sql, values, (error, results) => {
+        if (error) {
+            console.error('Erro ao atualizar o equipamento:', error);
+            return res.status(500).send('Erro ao atualizar o equipamento');
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send('Equipamento não encontrado');
+        }
+        res.status(200).send('Equipamento atualizado com sucesso');
+    });
+});
+
+
 app.post('/addDevice', (req, res) => {
     const { nome, ID, sala } = req.body;
-    const responsavel = null; // Definindo como null
-    const status = null; // Ou outro valor padrão
+    const responsavel = null; 
+    const status = null;
 
-    connection.query('INSERT INTO devices (nome, ID, sala, responsavel, status) VALUES (?, ?, ?, ?, ?)', 
+    connection.query('INSERT INTO devices (nome, ID, ORIGEM, responsavel, status) VALUES (?, ?, ?, ?, ?)', 
         [nome, ID, sala, responsavel, status], 
         (error, results) => {
             if (error) {
@@ -200,7 +228,7 @@ app.get('/api/user/:id', (req, res) => {
             console.log('acesso permitido');
             req.session.id = userId;
             
-            // Buscar o nome do usuário
+           
             connection.query('SELECT nome FROM employees WHERE id = ?', [userId], (nameError, nameResults) => {
                 if (nameError) {
                     console.log('Erro ao buscar o nome do usuário:', nameError);
@@ -210,7 +238,7 @@ app.get('/api/user/:id', (req, res) => {
                 if (nameResults.length > 0) {
                     const userName = nameResults[0].nome;
 
-                    // Atualiza o RESPONSAVEL dos devices na sala 65
+                   
                     connection.query('UPDATE devices SET RESPONSAVEL = ? WHERE ORIGEM = 65', [userName], (updateError, updateResults) => {
                         if (updateError) {
                             console.log('Erro ao atualizar os dispositivos:', updateError);
@@ -231,40 +259,18 @@ app.get('/api/user/:id', (req, res) => {
 });
 
 
-app.post('/api', (req, res) => {
-    console.log("Requisição recebida: ", req.body);
-    const { ids, lab } = req.body;
-  
-    if (!Array.isArray(ids) || ids.length === 0) {
-      console.log("Nenhum beacon detectado");
-    }
-  
-    const sqlQuery = 'SELECT * FROM devices WHERE origem = ? AND UUID IN (?)';
-    db.query(sqlQuery, [lab, ids], (err, result) => {
-      if (err) {
-        console.log("Erro na consulta ao banco de dados", err);
-      }
-  
-      if (result && result.length > 0) {
-        console.log("Informação encontrada no banco de dados', data: result");
-      } else {
-        console.log("Nenhum dispositivo encontrado para os parâmetros fornecidos");
-      }
-    });
-  });
 
 
   
 
 app.get('/api/equipamentos', (req, res) => {
-    console.log('82');
+    // console.log('82');
     connection.query('SELECT nome, ID, responsavel, ORIGEM, STATUS, ATUAL FROM devices WHERE ORIGEM = 82', (error, results) => {
         if (error) throw error;
         if (results.length === 0) {
-            return res.json(null);  // Retorna null quando o resultado é vazio
+            return res.json(null); 
         } else {
-            return res.json(results);  // Retorna os dados quando a consulta tem resultados
-            console.log('Equipamentos solicitados - sala 82'); 
+            return res.json(results);  
         }
     });
 })
@@ -272,7 +278,7 @@ app.get('/api/equipamentos', (req, res) => {
 
 
 app.get('/usersTable', (req,res) => {
-    console.log('tabela de users solicitada');
+    // console.log('tabela de users solicitada');
     connection.query('SELECT * FROM employees', (error,results) => {
         if(error) throw error;
         res.json(results);
@@ -287,14 +293,14 @@ app.get('/api/users', (req, res) => {
     connection.query('SELECT nome, foto, funcao FROM employees WHERE email = ?',[email], (error, results) => {
         if (error) throw error;
         // res.json(results);
-        console.log('infos do user solicitada');
+        // console.log('infos do user solicitada');
         if (results.length > 0){
             res.json(results[0]);
-            console.log('foto enviada para frontend');
+            // console.log('foto enviada para frontend');
         } 
         else {
             res.status(404).send('Usuário não encontrado!');
-            console.log('infos não achadas');
+            // console.log('infos não achadas');
         }
     });
     
@@ -328,13 +334,13 @@ app.get('/api/users', (req, res) => {
 
 
 app.get('/pages', authMiddleware, (req, res) => {
-    console.log('/pages aceito')
+    // console.log('/pages aceito');
     res.sendFile(path.join(__dirname, 'public', 'home','index.html'));
 });
 
 // Outras rotas protegidas
 app.get('/config', authMiddleware, (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'config.html'));
+    res.sendFile(path.join(__dirname, 'public', 'home','config.html'));
 });
 
 app.get('/edit', authMiddleware, (req, res) => {
@@ -348,109 +354,132 @@ app.get('/users', authMiddleware, (req, res) => {
 
 
 
-app.post('/api/save', async (req, res) => {
-    const { equipamento, id, sala, newColumn } = req.body;
+// app.post('/api/save', async (req, res) => {
+//     const { equipamento, id, sala, newColumn } = req.body;
 
-    try {
+//     try {
         
-        const query = 'INSERT INTO equipamentos (equipamento, id, sala) VALUES (?, ?, ?, ?, ?)';
-        await connection.query(query, [equipamento, id, sala]);
+//         const query = 'INSERT INTO equipamentos (equipamento, id, sala) VALUES (?, ?, ?, ?, ?)';
+//         await connection.query(query, [equipamento, id, sala]);
 
         
-        if (newColumn && newColumn.name && newColumn.type) {
-            const alterQuery = `ALTER TABLE equipamentos ADD COLUMN ${newColumn.name} ${newColumn.type}`;
-            await connection.query(alterQuery);
-            console.log(`Nova coluna ${newColumn.name} adicionada com sucesso!`);
-        }
+//         if (newColumn && newColumn.name && newColumn.type) {
+//             const alterQuery = `ALTER TABLE equipamentos ADD COLUMN ${newColumn.name} ${newColumn.type}`;
+//             await connection.query(alterQuery);
+//             // console.log(`Nova coluna ${newColumn.name} adicionada com sucesso!`);
+//         }
 
-        res.json({ message: 'Dados salvos com sucesso!' });
-    } catch (error) {
-        console.error('Erro ao salvar os dados:', error);
-        res.status(500).json({ message: 'Erro ao salvar os dados.' });
-    }
-});
-
-app.post('/api', (req, res) => {
-    const { ids, lab } = req.body;
-    console.log("Requisição recebida: ", req.body);
-  
-    // Verifica se o vetor ids está presente e não está vazio
-    if (!Array.isArray(ids) || ids.length === 0) {
-      return res.status(400).json({ error: 'Nenhum beacon detectado' });
-    }
-  
-    
-    let results = [];
-  
-   
-    const checkID = (id, callback) => {
-      const sqlQuery = 'SELECT * FROM devices WHERE SALA = ? AND ID = ?';
-      db.query(sqlQuery, [lab, id], (err, result) => {
-        if (err) {
-          callback(`Erro na consulta do ID ${id}`);
-        } else if (result.length > 0) {
-          callback(`ID ${id} está presente`);
-        } else {
-          callback(`ID ${id} não está presente`);
-        }
-      });
-    };
-  
-    // Percorre os ids e verifica cada um deles
-    let processed = 0;  // Contador para garantir que todas as consultas foram feitas
-    ids.forEach(id => {
-      checkID(id, (message) => {
-        results.push(message);
-        processed++;
-  
-        // Quando todas as verificações forem concluídas, enviar a resposta
-        if (processed === ids.length) {
-          console.log({ message: results });
-        }
-      });
-    });
-  });
+//         res.json({ message: 'Dados salvos com sucesso!' });
+//     } catch (error) {
+//         console.error('Erro ao salvar os dados:', error);
+//         res.status(500).json({ message: 'Erro ao salvar os dados.' });
+//     }
+// });
 
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail', // ou outro serviço de email que você utilize
+
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
     auth: {
-        user: 'sistemasimter@gmail.com', // Coloque seu email aqui
-        pass: 'projetoSimter'           // Coloque sua senha aqui (melhor usar uma variável de ambiente)
+        user: 'sistemasimter@gmail.com',
+        pass: 'kdef qpol muce epae'
     }
 });
+
 
 app.post('/api/send-email', (req, res) => {
     const { csvContent } = req.body;
 
-    // Configurações do email
     const mailOptions = {
-        from: 'sistemasimter@gmail.com',  // Email de origem
-        to: req.session.email, // Email de destino
+        from: 'sistemasimter@gmail.com',
+        to: req.session.email,
         subject: 'CSV da Tabela de Equipamentos',
         text: 'Segue em anexo o CSV gerado',
         attachments: [
             {
                 filename: 'equipamentos_tabela.csv',
-                content: csvContent,
-                contentType: 'text/csv'
+                content: '\uFEFF' + csvContent, // Adiciona o BOM para UTF-8 no conteúdo do CSV
+                contentType: 'text/csv; charset=utf-8'
             }
         ]
-    };
-
-    // Enviando o email
-    transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            console.log('Erro ao enviar email:', error);
-            res.status(500).send('Erro ao enviar email');
-        } else {
-            console.log('Email enviado:', info.response);
-            res.status(200).send('Email enviado com sucesso');
-        }
+    }
     });
+
+    
+    const checkMissingIds = (dbIds, jsonIds) => {
+        const missingIds = dbIds.filter(dbId => !jsonIds.includes(dbId.ID));
+        missingIds.forEach(missingId => {
+          results.push(`ID ${missingId.ID} não está presente na sala`);
+          connection.query(`UPDATE devices SET ATUAL = '0', STATUS = 'desaparecido', HORARIO = NOW() WHERE ID = ?;`, [missingId.ID]);
+        });
+      };
+      
+      app.post('/api', (req, res) => {
+        console.log("Requisição recebida: ", req.body);
+        const { ids, lab } = req.body;
+      
+        if (!Array.isArray(ids) || ids.length === 0) {
+            console.log('Nenhum beacon detectado na sala');
+            
+        }
+      
+        const sqlQuery = 'SELECT ID FROM devices WHERE ORIGEM = ?';
+        connection.query(sqlQuery, [lab], (err, dbResult) => {
+          if (err) {
+            console.log('Erro na consulta ao banco de dados');
+          }
+      
+          if (dbResult.length > 0 && Array.isArray(ids)) {
+            console.log(dbResult);
+            checkMissingIds(dbResult, ids);
+      
+            let processed = 0;
+      
+            ids.forEach(id => {
+              const sqlCheckQuery = 'SELECT * FROM devices WHERE ORIGEM = ? AND ID = ?';
+              
+              connection.query(sqlCheckQuery, [lab, id], (err, result) => {
+                if (err) {
+                  results.push(`Erro na consulta do ID ${id}: ${err}`);
+      
+                } else if (result.length > 0) {
+                  results.push(`ID ${id} está presente na sala`);
+                  res.status(200).json({ success: true, message: 'Equipamento cadastrado com sucesso!' });
+                  connection.query(`UPDATE devices SET ATUAL = ?, STATUS = 'presente', HORARIO = NOW() WHERE ID = ?`, [lab, id]);
+      
+                } else {
+                  results.push(`ID ${id} não é dessa sala`);
+                  connection.query(`UPDATE devices SET ATUAL = ?, STATUS = 'deslocado', HORARIO = NOW() WHERE ID = ?;`, [lab, id]);
+      
+                }
+      
+                processed++;
+      
+                if (processed === ids.length) {
+                  console.log(results);
+                  results = []; 
+                }
+              });
+            });
+          }
+        });
+      });
+      
+      const os = require('os');
+      const interfaces = os.networkInterfaces();
+      for (let iface in interfaces) {
+        interfaces[iface].forEach((details) => {
+          if (details.family === 'IPv4' && !details.internal) {
+            console.log(`Servidor rodando no IP: ${details.address}:${port}`);
+          }
+        });
+      };
+
+app.listen(port, () => {
+    console.log('Servidor rodando em http://localhost:3000');
 });
 
-
-app.listen(3000, () => {
-    console.log('Servidor rodando em http://localhost:3000');
+app.listen(8000, () => {
+    console.log('Servidor rodando em http://localhost:8000');
 });
