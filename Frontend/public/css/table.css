@@ -254,19 +254,8 @@ main {
   }
   
   /* Responsive Design */
-  @media (max-width: 768px) {
-    .columns {
-      flex-direction: column;
-    }
   
-    .sidebar {
-      width: 100px;
-    }
   
-    .sidebar ul li {
-      font-size: 14px;
-    }
-  }
   
 
 
@@ -323,7 +312,8 @@ main {
     padding: 20px;
     border-radius: 10px;
     width: 80%; /* Define o tamanho do modal */
-    
+    margin-left: 12%;
+    margin-right: 3%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     max-height: 90vh; /* Máximo de 90% da altura da tela */
     overflow-y: auto; /* Permite rolagem caso o conteúdo ultrapasse o tamanho do modal */
@@ -331,6 +321,7 @@ main {
 
 /* Botão de fechar o modal (X) */
 .close {
+  margin: auto;
     float: right;
     font-size: 24px;
     cursor: pointer;
@@ -372,20 +363,6 @@ button {
     align-self: flex-end;
 }
 
-/* Responsividade para telas menores */
-@media (max-width: 650px) {
-    .form-row {
-        flex-direction: column;
-    }
-
-    .form-group {
-        width: 100%;
-    }
-    #sidebar {
-        display: none;
-    }
-
-}
 
 
 /* CSS básico */
@@ -431,33 +408,10 @@ button {
   }
 
 
-  @media screen and (max-width: 768px) {
-    .sidebar {
-      width: 100%;
-      position: relative;
-      margin-bottom: 20px;
-    }
   
-    .main-content {
-      margin-left: 0;
-    }
-  
-    /* Ajuste para o conteúdo da tabela */
-    .table-responsive {
-      overflow-x: auto;
-    }
-  
-    /* Ajuste para o menu lateral */
-    #sidebar {
-      width: 100%;
-      height: auto;
-    }
-  
-    /* Estilo dos botões */
-    .openModalBtn {
-      font-size: 12px;
-      padding: 5px 10px;
-    }
+  #addDevice {
+    background-color: #666;
+    background-image: none;
   }
   
   /* Ajustes para dispositivos menores que 480px (smartphones) */
@@ -634,3 +588,78 @@ th {
   background-color: #4CAF50;
   color: white;
 }
+
+
+@media screen and (max-width: 768px) {
+        
+
+    * {
+      box-sizing: border-box;
+    }
+
+    #sidebar {
+      display: none;
+    }
+
+ 
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita a barra de rolagem horizontal */
+    background-size: cover;
+    color: #fff;
+  }
+    
+
+
+  #sidebar ,.sidebar.closed ,.open-sidebar  {
+      display: none;
+      visibility: hidden;
+  }
+    
+  
+    .main-content {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    .main-content.expanded {
+      margin-left: 0px;
+      margin-right: 0px;
+      height: 100%;
+      
+    }
+  
+    /* Ajuste para o conteúdo da tabela */
+    .table-responsive {
+      overflow-x: auto;
+    }
+  
+    /* Ajuste para o menu lateral */
+
+  
+    /* Estilo dos botões */
+    .openModalBtn {
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+  }
+
+  .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .avatar {
+    border-radius: 50%;
+  }
+
+  .red-background {
+    background-color: rgba(255, 0, 0, 0.2); /* Vermelho com baixa opacidade */
+  }
+  
