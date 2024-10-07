@@ -419,7 +419,7 @@ app.post('/api/send-email', (req, res) => {
         console.log("Requisição recebida: ", req.body);
         const { ids, lab } = req.body;
       
-        if (!Array.isArray(ids) || ids.length === 0) {
+        if (!Array.isArray(ids) || ids.length === 0) { 
             console.log('Nenhum beacon detectado na sala');
             
         }
@@ -445,7 +445,7 @@ app.post('/api/send-email', (req, res) => {
       
                 } else if (result.length > 0) {
                   results.push(`ID ${id} está presente na sala`);
-                  res.status(200).json({ success: true, message: 'Equipamento cadastrado com sucesso!' });
+                //   res.status(200).json({ success: true, message: 'Equipamento cadastrado com sucesso!' });
                   connection.query(`UPDATE devices SET ATUAL = ?, STATUS = 'presente', HORARIO = NOW() WHERE ID = ?`, [lab, id]);
       
                 } else {
@@ -480,6 +480,6 @@ app.listen(port, () => {
     console.log('Servidor rodando em http://localhost:3000');
 });
 
-app.listen(8000, () => {
-    console.log('Servidor rodando em http://localhost:8000');
-});
+// app.listen(8000, () => {
+//     console.log('Servidor rodando em http://localhost:8000');
+// });
