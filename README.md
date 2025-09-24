@@ -1,14 +1,36 @@
+# SIMTER  
+## Sistema de Monitoramento de Equipamentos em Tempo Real
 
-# SIMTER
-## sistema de monitoramento de equipamentos em tempo real.
+> Repositório destinado ao projeto da **Equipe 3105** para a feira **PROJETE 2024**.
 
-> Repositorio destinado Projeto da equipe 3105 para a feira PROJETE 2024.
+O **SIMTER** é um sistema completo (hardware + software) de **rastreamento e controle de patrimônios** para empresas com grande volume de equipamentos e ativos físicos.  
+Ele utiliza a tecnologia **Bluetooth Low Energy (BLE)** para monitorar em tempo real a presença de patrimônios, auxiliando em **segurança**, **gestão logística** e **inventário automatizado**.
 
+---
 
-Este repositório é destinado ao projeto SIMTER, um sistema de controle de fluxo que visa facilitar a gestão e resguardo dos patrimônios de empresas utilizando Bluetooth Low Energy(BLE) como tecnologia principal.  
+## 🚀 Funcionalidades
 
-## Screenshots
+- Rastreio em tempo real de patrimônios importantes (máquinas, ferramentas, etc.)  
+- Identificação da presença de equipamentos dentro da empresa em até **5 segundos**  
+- Comunicação segura com **criptografia própria**  
+- Autonomia de **meses** graças ao uso otimizado do **deep sleep** nos beacons  
+- Integração com uma **plataforma web** para relatórios, inventário e acompanhamento  
+- Pacote completo: **hardware + software** pronto para uso  
 
+---
+
+## 🏗️ Arquitetura
+
+- **Beacons**: desenvolvidos em ESP32, transmitem sinais BLE com payload criptografado  
+- **Gateways**: coletam sinais BLE e enviam para o servidor via **requisições HTTP (Wi-Fi)**  
+- **Servidor**: realiza o armazenamento central dos dados recebidos  
+- **Aplicação Web**: interface para gestão de patrimônios, relatórios e acompanhamento  
+
+> Obs.: no momento não há triangulação de posição — o sistema identifica presença em determinada área.  
+
+---
+
+## 📸 Screenshots
 
 <div style="display: flex; justify-content: space-between;">
     <img src="em testes" alt="Imagem 1" width="33%">
@@ -16,90 +38,66 @@ Este repositório é destinado ao projeto SIMTER, um sistema de controle de flux
     <img src="em testes" alt="Imagem 3" width="33%">
 </div>
 
-## 💻 Vantagens
+---
 
--testes
+## 💡 Vantagens
 
-## Despesas
+- 🔒 **Segurança**: evita perdas e furtos de patrimônio  
+- 📦 **Inventário automático**: elimina processos manuais demorados  
+- ⚡ **Baixo consumo de energia**: autonomia de até **6 meses** por beacon  
+- 🌐 **Simplicidade**: não requer internet, apenas um roteador local para comunicação  
+- 📈 **Escalabilidade**: possibilidade de expansão futura para triangulação indoor  
 
+---
 
+## 📊 Despesas (Protótipo)
 
-- 5 microcontroladores ESP32 
-- 5 baterias 18650 2500mah
-- módulo RFID rc522
-- tag RFID
+- 5 × ESP32  
+- 5 × Baterias 18650 (4000 mAh)  
+- 1 × Módulo RFID RC522  
+- Tags RFID para testes  
 
+---
 
-## 📫Documentação
+## 📘 Documentação
 
-> Confira nosso diario!
-<p align='center'> em testes
- 
-  <!-- <a href="https://eteacojeorg-my.sharepoint.com/:o:/g/personal/freitas_j_edu_etefmc_com_br/EgUp486kboZGrSqPbz-lGv4BfmcwCqUDRjT4-NkH4WhdEQ?e=SHGIee">
-    <img height="120em" src="assets/img/logoOneNote.png" />  
-  </a>&nbsp;&nbsp; -->
-</p>
+> Confira nosso diário de desenvolvimento:  
+<p align='center'>Em testes...</p>
 
+---
 
-## FAQ
+## ❓ FAQ
 
-#### Qual o objetivo de seu projeto?
+**Como funciona a autonomia da bateria?**  
+Cada beacon usa uma bateria **18650 de 4000 mAh**.  
+- Consumo em transmissão: ~8 mA por **0,18 s**  
+- Deep sleep: ~80 µA por **4 s**  
+Com esse ciclo, a autonomia média chega a **6 meses** sem necessidade de recarga.
 
+**O sistema precisa de internet?**  
+Não. Basta um **roteador local** para permitir as requisições HTTP entre beacons, gateways e servidor.
 
-#### Para quem é feito seu projeto?
+**Dá para rastrear pessoas também?**  
+Atualmente não. O sistema foi projetado exclusivamente para patrimônios.
 
+**Qual a diferença para um rastreamento por GPS?**  
+- ⚡ Consumo de energia muito menor  
+- 🏭 Funciona em ambientes indoor, onde GPS não opera bem  
+- 🔧 Possibilidade de evoluir para triangulação BLE no futuro  
 
+---
 
+## 🧑‍💻 Autores
 
-## 🕶️Autores
+| Nome        | Função                        |
+|-------------|-------------------------------|
+|Enzo   | Gateway e Backend    |
+| João Pedro | Backend, Frontend e banco de dados |
+| Mateus  | Beacon e Gateway        |
+| Murilo      | Criptografia, RFID            |
 
-<table>
-  <tr>
-    <td align="center">
-      <!-- <a href="#">
-        <img src="assets/img/integrantes/anajuliaeditado2.png" width="100px" height="100px" alt="Ana júlia">
-        <br>
-        <sub><b>Ana Júlia</b></sub>
-        <p>Metodologia e documentação</p>
-      </a>
-    </td>
-    <td align="center">
-      <a href="#">
-        <img src="assets/img/integrantes/Gvono.jpeg" width="100px" height="100px" alt="Vono">
-        <br>
-        <sub><b>Giovanna Vono</b></sub>
-        <p>Parte educacional e metodologia</p>
-      </a>
-    </td>
-    <td align="center">
-      <a href="#">
-        <img src="assets/img/integrantes/enzo2.jpeg" width="100px" height="100px" alt="Nome da Pessoa 3">
-        <br>
-        <sub><b>Enzo</b></sub>
-        <p>Hardware e prototipagem</p>
-      </a>
-    </td>
-    <td align="center">
-      <a href="https://www.instagram.com/freitas.j1/">
-        <img src="assets/img/integrantes/Joaopedro.jpeg" width="100px" height="100px" alt="Nome da Pessoa 4">
-        <br>
-        <sub><b>João Pedro</b></sub>
-        <p>Software,IoT e Github</p>
-      </a>
-    </td>
-    <td align="center">
-      <a href="#">
-        <img src="assets/img/integrantes/murilo.jpeg" width="100px" height="100px" alt="Nome da Pessoa 5">
-        <br>
-        <sub><b>Murilo</b></sub>
-        <p>Garra</p>
-      </a> -->
-    </td>
-  </tr>
-</table>
+---
 
+## 📄 Licença
 
-
-## Licença
-
-Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE) para mais detalhes.
+Este projeto está sob a licença [MIT](LICENSE).  
