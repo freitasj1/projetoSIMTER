@@ -1,7 +1,7 @@
 # SIMTER  
 ## Sistema de Monitoramento de Equipamentos em Tempo Real
 
-> Repositório destinado ao projeto da **Equipe 3105** para a feira **PROJETE 2024**.
+> Repositório destinado ao projeto da **Equipe 3105** para a feira **PROJETE 2024**, na ETE FMC.
 
 O **SIMTER** é um sistema completo (hardware + software) de **rastreamento e controle de patrimônios** para empresas com grande volume de equipamentos e ativos físicos.  
 Ele utiliza a tecnologia **Bluetooth Low Energy (BLE)** para monitorar em tempo real a presença de patrimônios, auxiliando em **segurança**, **gestão logística** e **inventário automatizado**.
@@ -33,9 +33,9 @@ Ele utiliza a tecnologia **Bluetooth Low Energy (BLE)** para monitorar em tempo 
 ## 📸 Screenshots
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="em testes" alt="Imagem 1" width="33%">
-    <img src="em testes" alt="Imagem 2" width="33%">
-    <img src="em testes" alt="Imagem 3" width="33%">
+    <img src="https://github.com/freitasj1/projetoSIMTER/blob/main/img/20241004_110745.jpg" alt="Imagem 1" width="33%">
+    <img src="https://github.com/freitasj1/projetoSIMTER/blob/main/img/20241004_110749.jpg" alt="Imagem 2" width="33%">
+    <img src="https://github.com/freitasj1/projetoSIMTER/blob/main/img/DSC_0350.jpg" alt="Imagem 3" width="33%">
 </div>
 
 ---
